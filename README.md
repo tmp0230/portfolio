@@ -1,4 +1,4 @@
-node-boillerplate
+node-boilerplate
 =================
 
-Small node boiller using express through a REST API
+Small node boiler using express through a REST API.
