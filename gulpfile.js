@@ -2,16 +2,18 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     path = require('path'),
 
-    handlebars = require('gulp-handlebars'),
+    clean = require('gulp-clean'),
+    swig = require('gulp-swig-precompile'),
     nodemon = require('gulp-nodemon');
 
 
-// HBS
+// Templates
+// =========
 
-gulp.task('hbs', function(){
-    return gulp.src('templates/**/*.hbs')
-        .pipe(handlebars())
-        .pipe(gulp.dest('templates/jst'));
+gulp.task('swig', function(){
+    return gulp.src('templates/**/*.html', {base: path.join(__dirname, 'templates')})
+        .pipe(swig())
+        .pipe(gulp.dest('jst'));
 });
 
 
@@ -26,7 +28,18 @@ gulp.task('watch', function(){
 });
 
 
-// Tasks
-// ====
+// Clean
+// =====
 
-gulp.task('default', ['hbs', 'watch']);
+gulp.task('superclean', function(){
+    return gulp.src('jst', {read: false})
+        .pipe(clean());
+});
+
+
+// Tasks
+// =====
+
+gulp.task('default', ['swig', 'watch']);
+
+gulp.task('clean', ['superclean']);
