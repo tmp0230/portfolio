@@ -6,7 +6,7 @@ var Config = require('./config'),
     app = express(),
     router = express.Router(),
     port = process.env.PORT || 8080,
-    Project = require('./models/Project');
+    Project = require('./models/project');
 
 // App
 // ===
@@ -27,7 +27,7 @@ var listProjects = function(req, res){
 
         if(err) res.send(err);
 
-        req.is('json') ? res.json(projects) : res.render('partials/list-projects', {projects: projects});
+        req.is('json') ? res.json(projects) : res.render('partials/list-projects', {projects: projects, cool: 'hello'});
     });
 };
 
