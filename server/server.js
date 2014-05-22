@@ -27,7 +27,7 @@ var listProjects = function(req, res){
 
         if(err) res.send(err);
 
-        req.is('json') ? res.json(projects) : res.render('partials/list-projects', {projects: projects, cool: 'hello'});
+        req.is('json') ? res.json(projects) : res.render('layout/base', {projects: projects, cool: 'hello'});
     });
 };
 

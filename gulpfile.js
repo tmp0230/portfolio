@@ -9,8 +9,8 @@ var gulp = require('gulp'),
 
 gulp.task('templates', function(){
     return gulp.src('templates/**/*.html')
-        .pipe(swig({output: 'tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}))
-        .pipe(gulp.dest('jst'));
+        .pipe(swig({output: 'var tpl = tpl || {}; tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}))
+        .pipe(gulp.dest('public/jst'));
 });
 
 // Watch

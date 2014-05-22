@@ -2,4 +2,4 @@
 /.vagrant/
 /node_modules/
 /server/config.js
-/jst/
+/public/jst/
