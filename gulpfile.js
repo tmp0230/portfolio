@@ -1,45 +1,42 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
-    path = require('path'),
 
     clean = require('gulp-clean'),
-    swig = require('gulp-swig-precompile'),
-    nodemon = require('gulp-nodemon');
-
+    swig = require('gulp-swig-precompile');
 
 // Templates
 // =========
 
-gulp.task('swig', function(){
-    return gulp.src('templates/**/*.html', {base: path.join(__dirname, 'templates')})
-        .pipe(swig())
+gulp.task('templates', function(){
+    return gulp.src('templates/**/*.html')
+        .pipe(swig({output: 'tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}))
         .pipe(gulp.dest('jst'));
 });
-
 
 // Watch
 // =====
 
-gulp.task('watch', function(){
-    return nodemon({script: 'server/server.js', ext: 'js'})
-        .on('restart', function(){
-            console.log('server restarted');
-        });
+gulp.task('watch', ['templates'], function(){
+    gulp.watch('templates/**/*.html', ['templates']);
 });
-
 
 // Clean
 // =====
 
-gulp.task('superclean', function(){
+gulp.task('clean', function(){
     return gulp.src('jst', {read: false})
         .pipe(clean());
 });
 
-
 // Tasks
 // =====
 
-gulp.task('default', ['swig', 'watch']);
+gulp.task('default', ['watch']);
 
-gulp.task('clean', ['superclean']);
+gulp.task('build', ['clean'], function(){
+    gulp.start('postbuild');
+});
+
+gulp.task('postbuild', ['template'], function(){
+    process.exit();
+});
