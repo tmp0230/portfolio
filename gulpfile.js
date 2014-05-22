@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
-    path = require('path'),
 
     clean = require('gulp-clean'),
     swig = require('gulp-swig-precompile');
@@ -10,7 +9,7 @@ var gulp = require('gulp'),
 
 gulp.task('templates', function(){
     return gulp.src('templates/**/*.html')
-        .pipe(swig({output: 'tpl[\'<%= file.relative.replace(/\\/g, \'/\') %>\'] = <%= template %>;' }))
+        .pipe(swig({output: 'tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}))
         .pipe(gulp.dest('jst'));
 });
 
