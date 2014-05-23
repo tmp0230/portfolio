@@ -1,4 +1,5 @@
 .DS_Store
+/.vagrant/
 /node_modules/
 /server/config.js
-/jst/
+/public/jst/
