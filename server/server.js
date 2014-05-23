@@ -2,7 +2,8 @@ var Config = require('./config'),
     express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
-    swig = require('swig'),
+    consolidate = require('consolidate'),
+    nunjucks = require('nunjucks'),
     app = express(),
     router = express.Router(),
     port = process.env.PORT || 8080,
@@ -14,7 +15,7 @@ var Config = require('./config'),
 app
     .use('/static/', express.static(__dirname+'/../public'))
     .use(bodyParser())
-    .engine('html', swig.renderFile)
+    .engine('html', consolidate.nunjucks)
     .set('view engine', 'html')
     .set('views', __dirname + '/../templates');
 

@@ -10,7 +10,7 @@ var gulp = require('gulp'),
 gulp.task('templates', function(){
     return gulp.src('templates/**/*.html')
         .pipe(nunjucks())
-        .pipe(gulp.dest('jst'));
+        .pipe(gulp.dest('public/jst'));
 });
 
 // Watch
@@ -24,7 +24,7 @@ gulp.task('watch', ['templates'], function(){
 // =====
 
 gulp.task('clean', function(){
-    return gulp.src('jst', {read: false})
+    return gulp.src('public/jst', {read: false})
         .pipe(clean());
 });
 
@@ -40,5 +40,3 @@ gulp.task('build', ['clean'], function(){
 gulp.task('postbuild', ['template'], function(){
     process.exit();
 });
-
-swig({output: 'tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}
