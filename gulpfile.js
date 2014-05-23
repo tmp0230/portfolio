@@ -2,14 +2,14 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
 
     clean = require('gulp-clean'),
-    swig = require('gulp-swig-precompile');
+    nunjucks = require('gulp-nunjucks');
 
 // Templates
 // =========
 
 gulp.task('templates', function(){
     return gulp.src('templates/**/*.html')
-        .pipe(swig({output: 'tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}))
+        .pipe(nunjucks())
         .pipe(gulp.dest('jst'));
 });
 
@@ -40,3 +40,5 @@ gulp.task('build', ['clean'], function(){
 gulp.task('postbuild', ['template'], function(){
     process.exit();
 });
+
+swig({output: 'tpl[\'<%= file.relative.replace(/\\\\/g, \'/\').slice(0, -5) %>\'] = <%= template %>;'}
