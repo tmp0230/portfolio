@@ -3,13 +3,18 @@
 
     </head>
     <body>
-        coool
+        <div id="t">coool mec</div>
 
         <script src="/static/js/lib/nunjucks-slim.js"></script>
         <script src="/static/jst/partials/list-projects.js"></script>
         <script src="/static/jst/404.js"></script>
         <script>
-            var res = nunjucks.render('partials/list-projects.html');
+
+
+            document.getElementById('t').onclick = function(){
+                var res = nunjucks.render('partials/list-projects.html');
+                document.body.innerHTML += res;
+            }
         </script>
     </body>
 </html>

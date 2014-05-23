@@ -19,6 +19,11 @@ app
     .set('view engine', 'html')
     .set('views', __dirname + '/../templates');
 
+//nunjucks.configure({autoescape: true});
+if( process.env.NODE_ENV == 'development' ){
+    app.set('view cache', false);
+}
+
 // Router
 // ======
 
@@ -28,7 +33,7 @@ var listProjects = function(req, res){
 
         if(err) res.send(err);
 
-        req.is('json') ? res.json(projects) : res.render('layout/base', {projects: projects, cool: 'hello'});
+        req.is('json') ? res.json(projects) : res.render('layout/base.html', {projects: projects, cool: 'hello'});
     });
 };
 
