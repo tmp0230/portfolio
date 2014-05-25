@@ -4,6 +4,8 @@ var Config = require('./config'),
     mongoose = require('mongoose'),
     consolidate = require('consolidate'),
     nunjucks = require('nunjucks'),
+    passport = require('passport'),
+    DigestStrategy = require('passport-http').DigestStrategy,
     app = express(),
     router = express.Router(),
     port = process.env.PORT || 8080,
@@ -12,9 +14,20 @@ var Config = require('./config'),
 // App
 // ===
 
+passport.use(new DigestStrategy({qop: 'auth'},
+    function(username, done){
+        User.findOne({username: username}, function(err, user){
+            if(err) return done(err);
+            if(!user) return done(null, false);
+            return done(null, user, user.password);
+        });
+    }
+));
+
 app
     .use('/static/', express.static(__dirname+'/../public'))
     .use(bodyParser())
+    .use(passport.initialize())
     .engine('html', consolidate.nunjucks)
     .set('view engine', 'html')
     .set('views', __dirname + '/../templates');
@@ -33,13 +46,13 @@ var listProjects = function(req, res){
 
         if(err) res.send(err);
 
-        req.is('json') ? res.json(projects) : res.render('layout/base.html', {projects: projects, cool: 'hello'});
+        req.is('json') ? res.json(projects) : res.render('layout/base', {projects: projects});
     });
 };
 
 var showProject = function(req, res){
 
-    Project.findOne(req.params.project_slug, function(err, project){
+    Project.findOne({slug: req.params.project_slug}, function(err, project){
 
         if(err) res.send(err);
 
@@ -51,7 +64,7 @@ router.route('/api/projects')
 
     .get(listProjects)
 
-    .post(function(req, res){
+    .post(passport.authenticate('digest', {session: false}), function(req, res){
 
         var project = new Project();
 
@@ -92,6 +105,11 @@ router.route('/api/projects/:project_slug')
     });
 
 router.route('/projects/:project_slug').get(showProject);
+
+// Admin
+// =====
+
+//router.route('/admin');
 
 app.use(router);
 

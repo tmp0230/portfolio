@@ -7,14 +7,18 @@
     "type": "git",
     "url": "https://github.com/arthurmu/node-boilerplate"
   },
-  "devDependencies": {
-    "gulp": "3.6.x",
-    "gulp-util": "2.2.x",
+  "dependencies": {
     "express": "4.1.x",
     "mongoose": "3.8.x",
     "body-parser": "1.0.x",
     "consolidate": "0.10.x",
     "nunjucks": "1.0.x",
+    "passport": "0.2.x",
+    "passport-http": "0.2.x"
+  },
+  "devDependencies": {
+    "gulp": "3.6.x",
+    "gulp-util": "2.2.x",
     "gulp-nunjucks": "0.2.x",
     "gulp-clean": "0.2.x"
   }
