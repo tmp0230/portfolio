@@ -1,3 +1,4 @@
 module.exports = {
-    MONGO_PASSWORD: ''  
+    MONGO_PASSWORD: '',
+    MONGO_DB: ''
 };

@@ -116,7 +116,7 @@ app.use(router);
 // Database
 // ========
 
-mongoose.connect('mongodb://muchir:'+Config.MONGO_PASSWORD+'@mongodb1.alwaysdata.com:27017/muchir_nodefolio');
+mongoose.connect('mongodb://muchir:'+Config.MONGO_PASSWORD+'@mongodb1.alwaysdata.com:27017/'+Config.MONGO_DB);
 
 app.listen(port);
 console.log('Node listening on port '+port);
