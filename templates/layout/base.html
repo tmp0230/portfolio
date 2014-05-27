@@ -5,8 +5,10 @@
     <body>
         <div id="t">click to render</div>
 
-        <script src="/static/js/lib/nunjucks-slim.js"></script>
-        <script src="/static/jst/partials/list-projects.js"></script>
+        <!-- build:js test.js -->
+        <script src="coucou.js"></script>
+        <!-- /build -->
+
         <script>
             document.getElementById('t').onclick = function(){
                 var res = nunjucks.render('partials/list-projects');

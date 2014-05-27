@@ -21,6 +21,7 @@
     "gulp-util": "2.2.x",
     "gulp-nunjucks": "0.2.x",
     "gulp-clean": "0.2.x",
-    "gulp-processhtml": "0.0.x"
+    "gulp-processhtml": "0.0.x",
+    "gulp-rename": "1.2.x"
   }
 }
