@@ -1,0 +1,19 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="t">click to render</div>
+
+        <!-- build:js testt.js -->
+        <script src="coucou.js"></script>
+        <!-- /build -->
+
+        <script>
+            document.getElementById('t').onclick = function(){
+                var res = nunjucks.render('partials/list-projects');
+                document.body.innerHTML += res;
+            }
+        </script>
+    </body>
+</html>
