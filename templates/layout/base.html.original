@@ -6,25 +6,17 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="css/normalize.css">
     </head>
     <body>
         <!--[if lt IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div id="t">click to render</div>
+        {% block content %}{% endblock %}
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
         <!-- build:js testt.js -->
-        <script src="coucou.js"></script>
         <!-- /build -->
-
-        <script>
-            document.getElementById('t').onclick = function(){
-                var res = nunjucks.render('partials/list-projects');
-                document.body.innerHTML += res;
-            }
-        </script>
     </body>
 </html>

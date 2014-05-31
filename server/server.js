@@ -2,7 +2,6 @@ var Config = require('./config'),
     express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
-    consolidate = require('consolidate'),
     nunjucks = require('nunjucks'),
     passport = require('passport'),
     DigestStrategy = require('passport-http').DigestStrategy,
@@ -27,15 +26,11 @@ passport.use(new DigestStrategy({qop: 'auth'},
 app
     .use('/static/', express.static(__dirname+'/../public'))
     .use(bodyParser())
-    .use(passport.initialize())
-    .engine('html', consolidate.nunjucks)
-    .set('view engine', 'html')
-    .set('views', __dirname + '/../templates');
+    .use(passport.initialize());
 
-//nunjucks.configure({autoescape: true});
-if( process.env.NODE_ENV == 'development' ){
-    app.set('view cache', false);
-}
+nunjucks.configure(__dirname + '/../templates', {
+    express: app
+});
 
 // Router
 // ======
@@ -46,7 +41,7 @@ var listProjects = function(req, res){
 
         if(err) res.send(err);
 
-        req.is('json') ? res.json(projects) : res.render('layout/base', {projects: projects});
+        req.is('json') ? res.json(projects) : res.render('partials/project-list.html', {projects: projects});
     });
 };
 
@@ -56,7 +51,7 @@ var showProject = function(req, res){
 
         if(err) res.send(err);
 
-        req.is('json') ? res.json(project) : res.render('index', {project: project});
+        req.is('json') ? res.json(project) : res.render('partials/project-show.html', {project: project});
     });
 };
 
@@ -84,7 +79,7 @@ router.route('/api/projects/:project_slug')
 
     .get(showProject)
 
-    .put(function(req, res){
+    .put(passport.authenticate('digest', {session: false}), function(req, res){
 
         Project.findOneAndUpdate({slug: req.params.project_slug}, req.body, function(err, project){
 
@@ -94,7 +89,7 @@ router.route('/api/projects/:project_slug')
         });
     })
 
-    .delete(function(req, res){
+    .delete(passport.authenticate('digest', {session: false}), function(req, res){
 
         Project.findOneAndRemove({slug: req.params.project_slug}, function(err){
 
@@ -109,7 +104,10 @@ router.route('/projects/:project_slug').get(showProject);
 // Admin
 // =====
 
-//router.route('/admin');
+router.route('/admin').get(function(req, res){
+
+    res.render('admin/partials/project-list.html');
+});
 
 app.use(router);
 
