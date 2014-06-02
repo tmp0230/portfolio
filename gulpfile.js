@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 // =========
 
 gulp.task('templates', ['generateLayout'], function(){
-    return gulp.src('templates/**/*.html')
+    return gulp.src(['!templates/admin', 'templates/**/*.html'])
         .pipe(nunjucks())
         .pipe(gulp.dest('public/jst'));
 });

@@ -1,44 +1,104 @@
-{% extends "admin/layout/base.html" %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Link</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="sortable">
+        <tr class="warning">
+            <td>1</td>
+            <td>Les ailes d'Hermès</td>
+            <td>juin 2014</td>
+            <td><a href="http://www.google.fr" target="blank">http://lesoeufscaches.milka.fr</a></td>
+            <td><a href="#"><span class="glyphicon glyphicon-edit"></span></a></td>
+            <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td><a href="#"><span class="glyphicon glyphicon-edit"></span></a></td>
+            <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td><a href="#"><span class="glyphicon glyphicon-edit"></span></a></td>
+            <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+    </tbody>
+</table>
 
-{% block content %}
-<div class="starter-template">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Link</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="sortable">
-            <tr>
-                <td>1</td>
-                <td>Les ailes d'Hermès</td>
-                <td>juin 2014</td>
-                <td><a href="http://www.google.fr" target="blank">http://lesoeufscaches.milka.fr</a></td>
-                <td><a href="#"><span class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td><a href="#"><span class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td><a href="#"><span class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">Title*</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputTitle" placeholder="Title (required)" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10">
+            <textarea id="inputDescription" class="form-control" placeholder="Description" rows="3"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputDate" class="col-sm-2 control-label">Date</label>
+        <div class="col-sm-10">
+            <input type="date" class="form-control" id="inputDate" placeholder="Date">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputLink" class="col-sm-2 control-label">Link</label>
+        <div class="col-sm-10">
+            <input type="url" class="form-control" id="inputLink" placeholder="Link">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTechnical" class="col-sm-2 control-label">Technical</label>
+        <div class="col-sm-10">
+            <input type="url" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTeam" class="col-sm-2 control-label">Team</label>
+        <div class="col-sm-10">
+            <input type="url" class="form-control" id="inputTeam" placeholder="Team member (coma separated)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputCredit" class="col-sm-2 control-label">Credits</label>
+        <div class="col-sm-10">
+            <input type="url" class="form-control" id="inputCredit" placeholder="Credits (coma separated)">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Publish
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success !</strong> The project has been successfully saved.
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Save</button>
+            <button type="button" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+</form>

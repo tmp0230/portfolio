@@ -1,4 +1,12 @@
 module.exports = {
+    MONGO_USER: '',
     MONGO_PASSWORD: '',
-    MONGO_DB: ''
+    MONGO_HOST: '',
+    MONGO_PORT: '',
+    MONGO_DB: '',
+
+    ADMIN_USERNAME: '',
+    ADMIN_PASSWORD: '',
+
+    SESSION_SECRET: ''
 };
