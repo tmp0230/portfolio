@@ -145,7 +145,10 @@ router.route('/login/')
         res.render('admin/partials/login.html');
     })
 
-    .post(passport.authenticate('digest', {successRedirect: '/admin/'}));
+    .post(passport.authenticate('digest', {successRedirect: '/admin/'}), function(req, res){
+
+        //res.
+    });
 
 router.route('/admin/').get(passport.authenticate('digest', {failureRedirect: '/login/'}), function(req, res){
 
