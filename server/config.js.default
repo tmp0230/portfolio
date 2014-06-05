@@ -5,7 +5,7 @@ module.exports = {
     MONGO_PORT: '',
     MONGO_DB: '',
 
-    ADMIN_USERNAME: '',
+    ADMIN_EMAIL: '',
     ADMIN_PASSWORD: '',
 
     SESSION_SECRET: ''

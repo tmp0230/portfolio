@@ -16,7 +16,7 @@
     "morgan": "1.1.x",
     "nunjucks": "1.0.x",
     "passport": "0.2.x",
-    "passport-http": "0.2.x"
+    "passport-local": "1.0.x"
   },
   "devDependencies": {
     "gulp": "3.6.x",
