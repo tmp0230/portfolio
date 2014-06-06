@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
 
     ProjectSchema = new mongoose.Schema({
         title: {type: String, required: true},
-        slug: {type: String, required: true, unique: true}
+        slug: {type: String, required: true, unique: true},
         description: String,
         date: Date,
         link: {type: String, lowercase: true},
@@ -22,6 +22,6 @@ var mongoose = require('mongoose'),
             .replace(/-+$/, '');        // Trim - from end of text
 
         next();
-    };
+    });
 
 module.exports = mongoose.model('Project', ProjectSchema);

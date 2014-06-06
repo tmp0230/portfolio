@@ -7,7 +7,7 @@ var Config = require('./config'),
     nunjucks = require('nunjucks'),
     passport = require('passport'),
     morgan = require('morgan'),
-    LocalStrategy  = require('passport-local').Strategy,
+    DigestStrategy  = require('passport-http').DigestStrategy,
     app = express(),
     router = express.Router(),
     port = process.env.PORT || 8080,
@@ -17,15 +17,16 @@ var Config = require('./config'),
 // Passport
 // ========
 
-passport.use(new LocalStrategy({usernameField: 'email'}, function(email, password, done){
+passport.use(new DigestStrategy({qop: 'auth'},
+    function(username, done){
 
-    User.findOne({email: email}, function(err, user){
-        if(err) return done(err);
-        if(!user) return done(null, false);
-        if(!user.validPassword(password)) return done(null, false);
-        return done(null, user);
-    });
-}));
+        User.findOne({email: username}, function(err, user){
+            if(err) return done(err);
+            if(!user) return done(null, false);
+            return done(null, user, user.password);
+        });
+    }
+));
 
 /*passport.serializeUser(function(user, done){
 
@@ -98,7 +99,7 @@ router.route('/api/projects/')
 
     .get(listProjects)
 
-    .post(passport.authenticate('local', {session: false}), function(req, res){
+    .post(passport.authenticate('digest', {session: false}), function(req, res){
 
         var project = new Project();
 
@@ -118,7 +119,7 @@ router.route('/api/projects/:project_slug/')
 
     .get(showProject)
 
-    .put(passport.authenticate('local', {session: false}), function(req, res){
+    .put(passport.authenticate('digest', {session: false}), function(req, res){
 
         Project.findOneAndUpdate({slug: req.params.project_slug}, req.body, function(err, project){
 
@@ -128,7 +129,7 @@ router.route('/api/projects/:project_slug/')
         });
     })
 
-    .delete(passport.authenticate('local', {session: false}), function(req, res){
+    .delete(passport.authenticate('digest', {session: false}), function(req, res){
 
         Project.findOneAndRemove({slug: req.params.project_slug}, function(err){
 
@@ -143,12 +144,12 @@ router.route('/projects/:project_slug/').get(showProject);
 // Admin
 // =====
 
-router.route('/login/')
+router.route('/join/')
 
     .get(function(req, res){
 
         if(req.isAuthenticated()) res.redirect('/admin/');
-        else res.render('admin/partials/login.html');
+        else res.render('admin/partials/join.html');
     })
 
     .post(function(req, res){
@@ -158,7 +159,7 @@ router.route('/login/')
 
         User.findOne({email: email}, function(err, user){
             if(err) return done(err);
-            //if(user) // email already in use
+            if(user) return;
 
             var user = new User({email: email, password: password});
 
@@ -171,10 +172,20 @@ router.route('/login/')
                     req.redirect('/admin/');
                 });
             });
-        }
+        });
     });
 
-router.route('/admin/').get(passport.authenticate('local', {session: false, failureRedirect: '/login/'}), function(req, res){
+router.route('/login/')
+
+    .get(function(req, res){
+
+        if(req.isAuthenticated()) res.redirect('/admin/');
+        else res.render('admin/partials/login.html');
+    })
+
+    .post(passport.authenticate('digest', {session: false, failureRedirect: '/login/', successRedirect: '/admin/'}));
+
+router.route('/admin/').get(passport.authenticate('digest', {session: false, failureRedirect: '/login/'}), function(req, res){
 
     res.render('admin/partials/project-list.html');
 });
