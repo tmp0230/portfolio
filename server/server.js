@@ -28,7 +28,7 @@ passport.use(new DigestStrategy({qop: 'auth'},
     }
 ));
 
-/*passport.serializeUser(function(user, done){
+passport.serializeUser(function(user, done){
 
     done(null, user.id);
 });
@@ -38,7 +38,12 @@ passport.deserializeUser(function(id, done){
     User.findById(id, function(err, user){
         done(err, user);
     });
-});*/
+});
+
+var isLogged = function(req, res, next){
+    if(req.isAuthenticated()) return next();
+    res.redirect('/login/');
+}
 
 // App
 // ===
@@ -99,7 +104,7 @@ router.route('/api/projects/')
 
     .get(listProjects)
 
-    .post(passport.authenticate('digest', {session: false}), function(req, res){
+    .post(isLogged, function(req, res){
 
         var project = new Project();
 
@@ -119,7 +124,7 @@ router.route('/api/projects/:project_slug/')
 
     .get(showProject)
 
-    .put(passport.authenticate('digest', {session: false}), function(req, res){
+    .put(isLogged, function(req, res){
 
         Project.findOneAndUpdate({slug: req.params.project_slug}, req.body, function(err, project){
 
@@ -129,7 +134,7 @@ router.route('/api/projects/:project_slug/')
         });
     })
 
-    .delete(passport.authenticate('digest', {session: false}), function(req, res){
+    .delete(isLogged, function(req, res){
 
         Project.findOneAndRemove({slug: req.params.project_slug}, function(err){
 
@@ -169,7 +174,7 @@ router.route('/join/')
 
                 req.login(user, function(err){
                     if(err) return console.log(err);
-                    req.redirect('/admin/');
+                    res.redirect('/admin/');
                 });
             });
         });
@@ -183,12 +188,39 @@ router.route('/login/')
         else res.render('admin/partials/login.html');
     })
 
-    .post(passport.authenticate('digest', {session: false, failureRedirect: '/login/', successRedirect: '/admin/'}));
+    // .post(passport.authenticate('digest'/*, {failureRedirect: '/login/', successRedirect: '/admin/'}*/));
 
-router.route('/admin/').get(passport.authenticate('digest', {session: false, failureRedirect: '/login/'}), function(req, res){
+    .post(function(req, res, next){
 
-    res.render('admin/partials/project-list.html');
-});
+        passport.authenticate('digest', function(err, user, info){
+
+            if(err) return console.log(err);
+
+            if(!user){
+                res.set('WWW-Authenticate', 'x'+info);
+                return res.send(401);
+            }
+
+            req.login(user, function(err){
+                if(err) return console.log(err);
+                res.redirect('/admin/');
+            });
+        })(req, res, next);
+    });
+
+router.route('/logout/')
+
+    .get(function(req, res){
+        req.logout();
+        res.redirect('/login/');
+    });
+
+router.route('/admin/')
+
+    .get(isLogged, function(req, res){
+
+        res.render('admin/partials/project-list.html');
+    });
 
 app.use(router);
 

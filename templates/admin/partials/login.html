@@ -17,23 +17,53 @@
                 <button type="submit" class="btn btn-primary">Log In</button>
             </fieldset>
         </form>
+        <p>or <a href="/join/">Join</a></p>
     </div>
 </div>
 {% endblock %}
 
 {% block footer %}
 <script>
-    $('button[type=submit]').on('click', function(){
+    $('button[type=submit]').on('click', function(evt){
+
+        evt.preventDefault();
 
         var email = $('input[name=email]').val(),
             password = $('input[name=password]').val(),
-            postReq = new digestAuthRequest('POST', '/join/', 'username', 'password');
+            formUrl = $('form').attr('action'),
+            nc = 1,
+            //('00000000' + self.nc).slice(-8)
+            generateClientNonce = function(){
+                var characters = 'abcdef0123456789',
+                    token = '';
 
-        postReq.request(function(data){
-            alert('logged');
-        }, function(errorCode){
-            alert('log error')
-        }, postData);
+                for(var i=0; i<16; i++){
+                    var randNum = Math.round(Math.random() * characters.length);
+                    token += characters.substr(randNum, 1);
+                }
+
+                return token;
+            };
+
+        $.ajax({
+            type: 'POST',
+            url: formUrl,
+            statusCode: {
+                401: function(res){
+
+                    var responseHeaders = res.getResponseHeader('WWW-Authenticate'),
+                        realm = /realm="(.*?)"/i,
+                        realm = realm.exec(responseHeaders)[1],
+                        nonce = /nonce="(.*?)"/i,
+                        nonce = nonce.exec(responseHeaders)[1];
+
+                    $.ajax({
+                        type: 'POST',
+                        url: formUrl
+                    });
+                }
+            }
+        });
     });
 </script>
 {% endblock %}
