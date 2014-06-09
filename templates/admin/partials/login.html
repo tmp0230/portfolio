@@ -24,46 +24,124 @@
 
 {% block footer %}
 <script>
-    $('button[type=submit]').on('click', function(evt){
+    var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+        Login,
+        loginPage;
 
-        evt.preventDefault();
+    Login = (function(){
+        Login.prototype.nc = 1;
 
-        var email = $('input[name=email]').val(),
-            password = $('input[name=password]').val(),
-            formUrl = $('form').attr('action'),
-            nc = 1,
-            //('00000000' + self.nc).slice(-8)
-            generateClientNonce = function(){
-                var characters = 'abcdef0123456789',
-                    token = '';
+        Login.prototype.formUrl = null;
+        Login.prototype.realm = null;
+        Login.prototype.nonce = null;
+        Login.prototype.cnonce = null;
 
-                for(var i=0; i<16; i++){
-                    var randNum = Math.round(Math.random() * characters.length);
-                    token += characters.substr(randNum, 1);
-                }
+        function Login(){
+            this.onClickSubmit = __bind(this.onClickSubmit, this);
+            this.clientAuth = __bind(this.clientAuth, this);
 
-                return token;
-            };
+            this.formUrl = $('form').attr('action');
 
-        $.ajax({
-            type: 'POST',
-            url: formUrl,
-            statusCode: {
-                401: function(res){
+            $('button[type="submit"]').on('click', this.onClickSubmit);
+        }
 
-                    var responseHeaders = res.getResponseHeader('WWW-Authenticate'),
-                        realm = /realm="(.*?)"/i,
-                        realm = realm.exec(responseHeaders)[1],
-                        nonce = /nonce="(.*?)"/i,
-                        nonce = nonce.exec(responseHeaders)[1];
+        Login.prototype.onClickSubmit = function(evt){
 
-                    $.ajax({
-                        type: 'POST',
-                        url: formUrl
-                    });
-                }
+            evt.preventDefault();
+
+            if(this.realm === null && this.nonce === null){
+                $.ajax({
+                    type: 'POST',
+                    url: this.formUrl,
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    },
+                    statusCode: {
+                        200: function(res){
+                            window.location.replace(res);
+                        },
+                        401: this.clientAuth
+                    }
+                });
             }
-        });
-    });
+            else{
+                this.clientAuth();
+            }
+        };
+
+        Login.prototype.generateClientNonce = function(){
+
+            var characters = 'abcdef0123456789',
+                token = '';
+
+            for(var i=0; i<16; i++){
+                var randNum = Math.round(Math.random() * characters.length);
+                token += characters.substr(randNum, 1);
+            }
+
+            this.cnonce = token;
+        };
+
+        Login.prototype.generateResponse = function(email, password){
+
+            var ha1 = $.md5(email+':'+this.realm+':'+password).toString(),
+                ha2 = $.md5('POST:'+this.formUrl).toString(),
+                nc = ('00000000'+this.nc).slice(-8);
+
+            return $.md5(ha1+':'+this.nonce+':'+nc+':'+this.cnonce+':auth:'+ha2).toString();
+        };
+
+        Login.prototype.extractInfoHeader = function(res){
+
+            var responseHeaders = res.getResponseHeader('WWW-Authenticate'),
+                realmRegex = /realm="(.*?)"/i,
+                nonceRegex = /nonce="(.*?)"/i;
+
+            this.realm = realmRegex.exec(responseHeaders)[1];
+            this.nonce = nonceRegex.exec(responseHeaders)[1];
+        }
+
+        Login.prototype.clientAuth = function(res){
+
+            var _this = this,
+                email = $('input[name="email"]').val(),
+                password = $('input[name="password"]').val();
+
+            this.generateClientNonce();
+            if(this.realm === null && this.nonce === null) this.extractInfoHeader(res);
+
+            var response = this.generateResponse(email, password),
+                nc = ('00000000'+this.nc).slice(-8),
+                digestHeader =  'Digest username="'+email+'", '+
+                                'realm="'+this.realm+'", '+
+                                'nonce="'+this.nonce+'", '+
+                                'uri="'+this.formUrl+'", '+
+                                'qop="auth", '+
+                                'nc="'+nc+'", '+
+                                'cnonce="'+this.cnonce+'", '+
+                                'response="'+response+'"';
+
+            $.ajax({
+                type: 'POST',
+                url: this.formUrl,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'WWW-Authenticate': digestHeader
+                },
+                statusCode: {
+                    200: function(res){
+                        window.location.replace(res);
+                    },
+                    401: function(res){
+                        _this.extractInfoHeader(res);
+                    }
+                }
+            });
+        };
+
+        return Login;
+    })();
+
+    loginPage = new Login();
 </script>
 {% endblock %}

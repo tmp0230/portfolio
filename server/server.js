@@ -23,7 +23,8 @@ passport.use(new DigestStrategy({qop: 'auth'},
         User.findOne({email: username}, function(err, user){
             if(err) return done(err);
             if(!user) return done(null, false);
-            return done(null, user, user.password);
+
+            done(null, user, user.password);
         });
     }
 ));
@@ -128,7 +129,7 @@ router.route('/api/projects/:project_slug/')
 
         Project.findOneAndUpdate({slug: req.params.project_slug}, req.body, function(err, project){
 
-            if(err) res.send(err);
+            if(err) return res.send(err);
 
             res.json(project);
         });
@@ -138,7 +139,7 @@ router.route('/api/projects/:project_slug/')
 
         Project.findOneAndRemove({slug: req.params.project_slug}, function(err){
 
-            if(err) res.send(err);
+            if(err) return res.send(err);
 
             res.json({status: 0});
         });
@@ -203,7 +204,7 @@ router.route('/login/')
 
             req.login(user, function(err){
                 if(err) return console.log(err);
-                res.redirect('/admin/');
+                res.send(200, '/admin/');
             });
         })(req, res, next);
     });
