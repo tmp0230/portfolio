@@ -1,6 +1,6 @@
 body{
     padding-top: 50px;
-    background-image: url(../../img/VERS_37.jpg);
+    /*background-image: url(../../img/VERS_37.jpg);*/
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -8,4 +8,8 @@ body{
 .starter-template{
     padding: 40px 15px;
     background-color: rgba(255, 255, 255, .9);
+}
+
+p, .alert{
+    margin-top: 15px;
 }

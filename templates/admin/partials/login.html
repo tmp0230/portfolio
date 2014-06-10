@@ -17,6 +17,7 @@
                 <button type="submit" class="btn btn-primary">Log In</button>
             </fieldset>
         </form>
+        <div class="alert alert-danger">Email Address or Password is incorrect</div>
         <p>or <a href="/join/">Join</a></p>
     </div>
 </div>
@@ -53,9 +54,6 @@
                 $.ajax({
                     type: 'POST',
                     url: this.formUrl,
-                    headers: {
-                        'Cache-Control': 'no-cache'
-                    },
                     statusCode: {
                         200: function(res){
                             window.location.replace(res);
@@ -84,11 +82,11 @@
 
         Login.prototype.generateResponse = function(email, password){
 
-            var ha1 = $.md5(email+':'+this.realm+':'+password).toString(),
-                ha2 = $.md5('POST:'+this.formUrl).toString(),
+            var ha1 = $.md5(email+':'+this.realm+':'+password),
+                ha2 = $.md5('POST:'+this.formUrl),
                 nc = ('00000000'+this.nc).slice(-8);
 
-            return $.md5(ha1+':'+this.nonce+':'+nc+':'+this.cnonce+':auth:'+ha2).toString();
+            return $.md5(ha1+':'+this.nonce+':'+nc+':'+this.cnonce+':auth:'+ha2);
         };
 
         Login.prototype.extractInfoHeader = function(res){
@@ -116,8 +114,8 @@
                                 'realm="'+this.realm+'", '+
                                 'nonce="'+this.nonce+'", '+
                                 'uri="'+this.formUrl+'", '+
-                                'qop="auth", '+
-                                'nc="'+nc+'", '+
+                                'qop=auth, '+
+                                'nc='+nc+', '+
                                 'cnonce="'+this.cnonce+'", '+
                                 'response="'+response+'"';
 
@@ -125,8 +123,7 @@
                 type: 'POST',
                 url: this.formUrl,
                 headers: {
-                    'Cache-Control': 'no-cache',
-                    'WWW-Authenticate': digestHeader
+                    'Authorization': digestHeader
                 },
                 statusCode: {
                     200: function(res){
