@@ -1,4 +1,6 @@
-var Config = require('./config'),
+var ADMIN_ROOT = '/api/projects',
+
+    Config = require('./config'),
     express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
@@ -81,29 +83,24 @@ nunjucks.configure(__dirname + '/../templates', {
 // Router
 // ======
 
-var listProjects = function(req, res){
+//router.route('/').get(listProjects);
+//router.route('/projects/:project_slug/').get(showProject);
 
-    Project.find(function(err, projects){
+// API
+// ===
 
-        if(err) res.send(err);
+router.route('/api/projects')
 
-        req.is('json') ? res.json(projects) : res.render('partials/project-list.html', {projects: projects});
-    });
-};
+    .get(function(req, res){
 
-var showProject = function(req, res){
+        Project.find(function(err, projects){
 
-    Project.findOne({slug: req.params.project_slug}, function(err, project){
+            if(err) return res.send(err);
 
-        if(err) res.send(err);
-
-        req.is('json') ? res.json(project) : res.render('partials/project-show.html', {project: project});
-    });
-};
-
-router.route('/api/projects/')
-
-    .get(listProjects)
+            if(req.is('json')) res.json(projects);
+            else if(req.isAuthenticated()) res.render('admin/partials/project-list.html', {projects: projects});
+        });
+    })
 
     .post(isLogged, function(req, res){
 
@@ -115,15 +112,22 @@ router.route('/api/projects/')
 
             if(err) res.send(err);
 
-            res.json({status: 0});
+            res.json(project);
         });
     });
 
-router.route('/').get(listProjects);
+router.route('/api/projects/:project_slug')
 
-router.route('/api/projects/:project_slug/')
+    .get(function(req, res){
 
-    .get(showProject)
+        Project.findOne({slug: req.params.project_slug}, function(err, project){
+
+            if(err) return res.send(err);
+
+            if(req.is('json')) res.json(project);
+            else if(req.isAuthenticated()) res.render('admin/partials/project-show.html', {project: project});
+        });
+    })
 
     .put(isLogged, function(req, res){
 
@@ -141,11 +145,9 @@ router.route('/api/projects/:project_slug/')
 
             if(err) return res.send(err);
 
-            res.json({status: 0});
+            res.send(200);
         });
     });
-
-router.route('/projects/:project_slug/').get(showProject);
 
 // Admin
 // =====
@@ -154,7 +156,7 @@ router.route('/join/')
 
     .get(function(req, res){
 
-        if(req.isAuthenticated()) res.redirect('/admin/');
+        if(req.isAuthenticated()) res.redirect(ADMIN_ROOT);
         else res.render('admin/partials/join.html');
     })
 
@@ -171,11 +173,11 @@ router.route('/join/')
 
             user.save(function(err){
 
-                if(err) return console.log(err);
+                if(err) return res.send(err);
 
                 req.login(user, function(err){
-                    if(err) return console.log(err);
-                    res.redirect('/admin/');
+                    if(err) return res.send(err);
+                    res.redirect(ADMIN_ROOT);
                 });
             });
         });
@@ -185,7 +187,7 @@ router.route('/login/')
 
     .get(function(req, res){
 
-        if(req.isAuthenticated()) res.redirect('/admin/');
+        if(req.isAuthenticated()) res.redirect(ADMIN_ROOT);
         else res.render('admin/partials/login.html');
     })
 
@@ -195,7 +197,7 @@ router.route('/login/')
 
         passport.authenticate('digest', function(err, user, info){
 
-            if(err) return console.log(err);
+            if(err) return res.send(err);
 
             if(!user){
                 res.set('WWW-Authenticate', 'x'+info);
@@ -203,9 +205,10 @@ router.route('/login/')
             }
 
             req.login(user, function(err){
-                if(err) return console.log(err);
-                res.send(200, '/admin/');
+                if(err) return res.send(err);
+                res.send(200, ADMIN_ROOT);
             });
+
         })(req, res, next);
     });
 
@@ -216,36 +219,12 @@ router.route('/logout/')
         res.redirect('/login/');
     });
 
-router.route('/admin/')
-
-    .get(isLogged, function(req, res){
-
-        res.render('admin/partials/project-list.html');
-    });
-
 app.use(router);
 
 // Database
 // ========
 
 mongoose.connect('mongodb://'+Config.MONGO_USER+':'+Config.MONGO_PASSWORD+'@'+Config.MONGO_HOST+':'+Config.MONGO_PORT+'/'+Config.MONGO_DB);
-
-/*mongoose.connection.on('open', function(){
-
-    User.findOne({username: Config.ADMIN_USERNAME}, function(err, user){
-
-        if(err) return console.log(err);
-
-        if(!user){
-            var admin = new User({username: Config.ADMIN_USERNAME, password: Config.ADMIN_PASSWORD});
-
-            admin.save(function(err){
-
-                if(err) return console.log(err);
-            });
-        }
-    });
-});*/
 
 app.listen(port);
 console.log('Node listening on port '+port);
