@@ -97,7 +97,7 @@
 
             this.realm = realmRegex.exec(responseHeaders)[1];
             this.nonce = nonceRegex.exec(responseHeaders)[1];
-        }
+        };
 
         Login.prototype.clientAuth = function(res){
 

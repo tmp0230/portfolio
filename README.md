@@ -1,4 +1,6 @@
-node-boilerplate
-================
+portfolio
+=========
 
-Small node boiler using express through a REST API.
+Node / Express / Mongoose / Passport / Digest Auth / REST / Nunjucks
+
+Gulp
