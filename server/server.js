@@ -2,7 +2,8 @@ var ADMIN_ROOT = '/api/projects',
 
     Config = require('./config'),
     express = require('express'),
-    bodyParser = require('body-parser'),
+    bodyParser = require('body-parser'), // get input data through req.body
+    methodOverride = require('method-override'), // use hidden field _method to set put or delete
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
     mongoose = require('mongoose'),
@@ -54,7 +55,7 @@ var isLogged = function(req, res, next){
 app
     .use('/static/', express.static(__dirname+'/../public'))
     .use(morgan('dev'))
-    .use(bodyParser())
+    .use(methodOverride())
     .use(cookieParser())
     .use(session({secret: Config.SESSION_SECRET}))
     .use(passport.initialize())
@@ -110,28 +111,28 @@ router.route('/api/projects')
 
         project.save(function(err){
 
-            if(err) res.send(err);
+            if(err) return res.send(err);
 
             res.json(project);
         });
     });
 
-router.route('/api/projects/:project_slug')
+router.route('/api/projects/:project_id')
 
     .get(function(req, res){
 
-        Project.findOne({slug: req.params.project_slug}, function(err, project){
+        Project.findById(req.params.project_id, function(err, project){
 
             if(err) return res.send(err);
 
             if(req.is('json')) res.json(project);
-            else if(req.isAuthenticated()) res.render('admin/partials/project-show.html', {project: project});
+            else if(req.isAuthenticated()) res.render('admin/partials/project-form.html', {project: project});
         });
     })
 
-    .put(isLogged, function(req, res){
+    .put(isLogged, bodyParser, function(req, res){
 
-        Project.findOneAndUpdate({slug: req.params.project_slug}, req.body, function(err, project){
+        Project.findByIdAndUpdate(req.params.project_id, req.body, function(err, project){
 
             if(err) return res.send(err);
 
@@ -141,7 +142,7 @@ router.route('/api/projects/:project_slug')
 
     .delete(isLogged, function(req, res){
 
-        Project.findOneAndRemove({slug: req.params.project_slug}, function(err){
+        Project.findByIdAndRemove(req.params.project_id, function(err){
 
             if(err) return res.send(err);
 
@@ -149,8 +150,18 @@ router.route('/api/projects/:project_slug')
         });
     });
 
-// Admin
-// =====
+// Admin Project
+// =============
+
+router.route('/projects/create/')
+
+    .get(isLogged, function(req, res){
+
+        res.render('admin/partials/project-form.html');
+    });
+
+// Admin User
+// ==========
 
 router.route('/join/')
 
@@ -160,7 +171,7 @@ router.route('/join/')
         else res.render('admin/partials/join.html');
     })
 
-    .post(function(req, res){
+    .post(bodyParser, function(req, res){
 
         var email = req.body.email,
             password = req.body.password;
