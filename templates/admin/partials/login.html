@@ -103,7 +103,7 @@
 
             var _this = this,
                 email = $('input[name="email"]').val(),
-                password = $('input[name="password"]').val();
+                password = $.md5($('input[name="password"]').val());
 
             this.generateClientNonce();
             if(this.realm === null && this.nonce === null) this.extractInfoHeader(res);

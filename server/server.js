@@ -21,6 +21,7 @@ var ADMIN_ROOT = '/api/projects',
 // ========
 
 passport.use(new DigestStrategy({qop: 'auth'},
+
     function(username, done){
 
         User.findOne({email: username}, function(err, user){
@@ -45,6 +46,7 @@ passport.deserializeUser(function(id, done){
 });
 
 var isLogged = function(req, res, next){
+
     if(req.isAuthenticated()) return next();
     res.redirect('/login/');
 }
@@ -53,7 +55,7 @@ var isLogged = function(req, res, next){
 // ===
 
 app
-    .use('/static/', express.static(__dirname+'/../public'))
+    .use('/static/', express.static(__dirname+'/../public/dist'))
     .use(morgan('dev'))
     .use(methodOverride())
     .use(cookieParser())

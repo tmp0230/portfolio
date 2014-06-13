@@ -6,13 +6,11 @@ var mongoose = require('mongoose'),
         password: {type: String, required: true}
     });
 
-    /*UserSchema.methods.generateHash = function(password){
-        this.password = crypto.createHash('sha1').update(password).digest('hex');
-    };*/
+    UserSchema.pre('save', function(next){
 
-    /*UserSchema.methods.checkHash = function(password){
-        if( crypto.createHash('sha1').update(password).digest('hex') === this.password ) return true;
-        return false;
-    };*/
+        this.password = crypto.createHash('md5').update(this.password).digest('hex');
+
+        next();
+    });
 
 module.exports = mongoose.model('User', UserSchema);
