@@ -4,4 +4,6 @@ npm-debug.log
 /node_modules/
 /server/config.js
 /public/jst/
+/public/dist/
+/public/app/compass/.sass-cache/
 /templates/layout/base.html

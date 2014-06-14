@@ -1,0 +1,38 @@
+// Media queries
+// =============
+
+// @mixin respondTo($media){
+//     @if $media == smartphone {
+//         @media (max-width: $smartphone){ @content; }
+//     }
+//     @else if $media == tablet {
+//         @media (min-width: $tabletPortrait) and (max-width: $tabletLandscape) { @content; }
+//     }
+//     @else if $media == smallScreen {
+//         @media (max-width: $desktop){ @content; }
+//     }
+//     @else if $media == desktop {
+//         @media (min-width: $desktop){ @content; }
+//     }
+// }
+
+// Sprites
+// =======
+
+// @mixin sprite($name, $spriteName){
+//     //$path: "generated/" + sprite-path($spriteName);
+//     $pos: sprite-position($spriteName, $name);
+//     background-image: sprite-url($spriteName);
+//     background-position: nth($pos, 1) nth($pos, 2);
+//     background-repeat: no-repeat;
+//     display: inline-block;
+// }
+//
+
+// Calc prefixs from Bourbon
+// =========================
+
+@mixin calc($property, $value){
+    #{$property}: -webkit-calc(#{$value});
+    #{$property}:         calc(#{$value});
+}

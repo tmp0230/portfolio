@@ -3,6 +3,7 @@
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
+    path = require('path'),
 
     clean = require('gulp-clean'),
     nunjucks = require('gulp-nunjucks'),
@@ -20,9 +21,22 @@ var gulp = require('gulp'),
 // =========
 
     paths = {
-        scripts: ['!public/app/js/libs/**/*.js', 'public/app/js/**/*.js'], // All js but not libs
-        vendors: ['public/app/js/libs/**/*.js'],
-        copyFiles: ['!public/app/compass', '!public/app/js', 'public/app/**/*'] // Copy all excepts js and compass
+        scripts: [
+            '!public/app/js/libs{,/**}',
+            '!public/app/js/admin{,/**}',
+            'public/app/js/**/*.js'
+        ], // All js but not libs or admin
+        vendors: [
+            'public/app/js/libs/underscore.js',
+            'public/app/js/libs/backbone.js',
+            'public/app/js/libs/*.js'
+        ],
+        copyFiles: [
+            '!public/app/compass{,/**}',
+            'public/app/js/admin/**/*.js', // Admin scripts
+            '!public/app/js{,/**}',
+            'public/app/**'
+        ] // Copy all excepts js and compass
     };
 
 // Scripts
@@ -55,7 +69,7 @@ gulp.task('libs', function(){
 gulp.task('css', function(){
     return gulp.src('public/app/compass/scss/**/*.scss')
         .pipe(compass({
-            //project: path.join(__dirname, 'public/compass'),
+            project: path.join(__dirname, 'public/app/compass'),
             sass: 'scss'
         })
             /*.on('error', gutil.log)
@@ -87,7 +101,7 @@ gulp.task('copy', function(){
 // Prod
 
 gulp.task('templates', ['generateLayout'], function(){
-    return gulp.src(['!templates/admin', 'templates/**/*.html'])
+    return gulp.src(['!templates/admin{,/**}', 'templates/**/*.html'])
         .pipe(nunjucks())
         .pipe(gulp.dest('public/dist/jst'));
 });
@@ -101,7 +115,7 @@ gulp.task('generateLayout', function(){
 // Dev
 
 gulp.task('templatesDev', ['generateLayoutDev'], function(){
-    return gulp.src(['!templates/admin', 'templates/**/*.html'])
+    return gulp.src(['!templates/admin{,/**}', 'templates/**/*.html'])
         .pipe(nunjucks())
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());

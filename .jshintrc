@@ -1,7 +1,4 @@
 {
-    // Enforcing
-    // =========
-
     "bitwise": true,
     "camelcase": true,
     "curly": true,
@@ -11,7 +8,7 @@
     "freeze": true,
     "immed": true,
     "indent": 4,
-    "latedef" true,
+    "latedef": true,
     "newcap": true,
     "noarg": true,
     "noempty": true,
@@ -29,11 +26,9 @@
     "maxcomplexity": false,
     "maxlen": false,
 
-    // Relaxing
-    // =========
 
     "asi": false,
-    "boss"; false,
+    "boss": false,
     "debug": false,
     "eqnull": false,
     "esnext": false,
@@ -60,8 +55,6 @@
     "validthis": false,
     "noyield": false,
 
-    // Environments
-    // ============
 
     "browser": true,
     "couch": false,
