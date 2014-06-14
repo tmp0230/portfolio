@@ -70,7 +70,8 @@ gulp.task('css', function(){
     return gulp.src('public/app/compass/scss/**/*.scss')
         .pipe(compass({
             project: path.join(__dirname, 'public/app/compass'),
-            sass: 'scss'
+            sass: 'scss',
+            image: '../img'
         })
             /*.on('error', gutil.log)
             .on('error', gutil.beep)*/)
@@ -81,8 +82,10 @@ gulp.task('css', function(){
         .pipe(gulp.dest('public/dist/css'));
 });
 
+// Clean compass css output because we already copied it in dist folder
+
 gulp.task('cleanCss', ['css'], function(){
-    return gulp.src('public/dist/compass/css', {read: false})
+    return gulp.src('public/app/compass/css', {read: false})
         .pipe(clean());
 });
 
