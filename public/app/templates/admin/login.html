@@ -1,0 +1,125 @@
+<!-- TODO: add .has-success .has-error on form-group -->
+
+<div class="container">
+    <div class="starter-template">
+        <form role="form" name="form" ng-submit="submitForm()" class="form-inline">
+            <fieldset>
+                <legend>Log In</legend>
+                <div class="form-group">
+                    <label for="inputEmail" class="sr-only">Email Address</label>
+                    <input type="email" name="email" ng-model="input.email" id="inputEmail" class="form-control" placeholder="Email Address" ng-maxlength="128" ng-minlength="6" size="25" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" name="password" ng-model="input.password" id="inputPassword" class="form-control" placeholder="Password" ng-maxlength="128" ng-minlength="6" size="25" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </fieldset>
+            <div ng-show="form.email.$dirty && form.email.$invalid">
+                <div ng-show="form.email.$error.email" class="alert alert-danger">Email Address is not valid</div>
+                <div ng-show="form.email.$error.required" class="alert alert-danger">Email Address is required</div>
+                <div ng-show="form.email.$error.minlength" class="alert alert-danger">Email Address is too short</div>
+                <div ng-show="form.email.$error.maxlength" class="alert alert-danger">Email Address is too long</div>
+            </div>
+            <div ng-show="form.password.$dirty && form.password.$invalid">
+                <div ng-show="form.password.$error.required" class="alert alert-danger">Password is required</div>
+                <div ng-show="form.password.$error.minlength" class="alert alert-danger">Password is too short</div>
+                <div ng-show="form.password.$error.maxlength" class="alert alert-danger">Password is too long</div>
+            </div>
+        </form>
+        <p>or <a href="/join/">Join</a></p>
+    </div>
+</div>
+
+<script>
+    //
+    //
+    //     Login.prototype.onClickSubmit = function(evt){
+    //    //
+    //         if(this.realm === null && this.nonce === null){
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url: this.formUrl,
+    //                 statusCode: {
+    //                     200: function(res){
+    //                         window.location.replace(res);
+    //                     },
+    //                     401: this.clientAuth
+    //                 }
+    //             });
+    //         }
+    //         else{
+    //             this.clientAuth();
+    //         }
+    //     };
+    //
+    //     Login.prototype.generateClientNonce = function(){
+    //
+    //         var characters = 'abcdef0123456789',
+    //             token = '';
+    //
+    //         for(var i=0; i<16; i++){
+    //             var randNum = Math.round(Math.random() * characters.length);
+    //             token += characters.substr(randNum, 1);
+    //         }
+    //
+    //         this.cnonce = token;
+    //     };
+    //
+    //     Login.prototype.generateResponse = function(email, password){
+    //
+    //         var ha1 = $.md5(email+':'+this.realm+':'+password),
+    //             ha2 = $.md5('POST:'+this.formUrl),
+    //             nc = ('00000000'+this.nc).slice(-8);
+    //
+    //         return $.md5(ha1+':'+this.nonce+':'+nc+':'+this.cnonce+':auth:'+ha2);
+    //     };
+    //
+    //     Login.prototype.extractInfoHeader = function(res){
+    //
+    //         var responseHeaders = res.getResponseHeader('WWW-Authenticate'),
+    //             realmRegex = /realm="(.*?)"/i,
+    //             nonceRegex = /nonce="(.*?)"/i;
+    //
+    //         this.realm = realmRegex.exec(responseHeaders)[1];
+    //         this.nonce = nonceRegex.exec(responseHeaders)[1];
+    //     };
+    //
+    //     Login.prototype.clientAuth = function(res){
+    //
+    //         var _this = this,
+    //             email = $('input[name="email"]').val(),
+    //             password = $.md5($('input[name="password"]').val());
+    //
+    //         this.generateClientNonce();
+    //         if(this.realm === null && this.nonce === null) this.extractInfoHeader(res);
+    //
+    //         var response = this.generateResponse(email, password),
+    //             nc = ('00000000'+this.nc).slice(-8),
+    //             digestHeader =  'Digest username="'+email+'", '+
+    //                             'realm="'+this.realm+'", '+
+    //                             'nonce="'+this.nonce+'", '+
+    //                             'uri="'+this.formUrl+'", '+
+    //                             'qop=auth, '+
+    //                             'nc='+nc+', '+
+    //                             'cnonce="'+this.cnonce+'", '+
+    //                             'response="'+response+'"';
+    //
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: this.formUrl,
+    //             headers: {
+    //                 'Authorization': digestHeader
+    //             },
+    //             statusCode: {
+    //                 200: function(res){
+    //                     window.location.replace(res);
+    //                 },
+    //                 401: function(res){
+    //                     _this.extractInfoHeader(res);
+    //                 }
+    //             }
+    //         });
+    //     };
+    //
+</script>

@@ -1,8 +1,3 @@
-{% extends "admin/layout/base.html" %}
-
-{% block content %}
-{% include "admin/menu.html" %}
-
 <div class="container">
     <div class="starter-template">
         <table class="table table-hover">
@@ -45,9 +40,7 @@
         </table>
     </div>
 </div>
-{% endblock %}
 
-{% block footer %}
 <script>
     $('[data-method]').on('click', function(evt){
 
@@ -59,4 +52,3 @@
         });
     });
 </script>
-{% endblock %}

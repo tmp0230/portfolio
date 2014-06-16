@@ -1,4 +1,6 @@
 {
+    "predef": ["angular"],
+
     "bitwise": true,
     "camelcase": true,
     "curly": true,
@@ -36,7 +38,7 @@
     "expr": false,
     "funcscope": false,
     "gcl": false,
-    "globalstrict": false,
+    "globalstrict": true,
     "iterator": false,
     "lastsemic": false,
     "laxbreak": false,

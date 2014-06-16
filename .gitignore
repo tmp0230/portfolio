@@ -5,5 +5,5 @@ npm-debug.log
 /server/config.js
 /public/jst/
 /public/dist/
-/public/app/compass/.sass-cache/
+/public/app/.sass-cache/
 /templates/layout/base.html

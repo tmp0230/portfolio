@@ -1,4 +1,4 @@
-var ADMIN_ROOT = '/api/projects',
+var /*ADMIN_ROOT = '/api/projects',*/
 
     Config = require('./config'),
     express = require('express'),
@@ -48,7 +48,8 @@ passport.deserializeUser(function(id, done){
 var isLogged = function(req, res, next){
 
     if(req.isAuthenticated()) return next();
-    res.redirect('/login/');
+    //res.redirect('/login/');
+    res.send(401);
 }
 
 // App
@@ -100,8 +101,8 @@ router.route('/api/projects')
 
             if(err) return res.send(err);
 
-            if(req.is('json')) res.json(projects);
-            else if(req.isAuthenticated()) res.render('admin/partials/project-list.html', {projects: projects});
+            /*if(req.is('json'))*/ res.json(projects);
+            //else if(req.isAuthenticated()) res.render('admin/partials/project-list.html', {projects: projects});
         });
     })
 
@@ -127,8 +128,8 @@ router.route('/api/projects/:project_id')
 
             if(err) return res.send(err);
 
-            if(req.is('json')) res.json(project);
-            else if(req.isAuthenticated()) res.render('admin/partials/project-form.html', {project: project});
+            /*if(req.is('json'))*/ res.json(project);
+            //else if(req.isAuthenticated()) res.render('admin/partials/project-form.html', {project: project});
         });
     })
 
@@ -155,23 +156,30 @@ router.route('/api/projects/:project_id')
 // Admin Project
 // =============
 
-router.route('/projects/create/')
+router.route('/admin/')
+
+    .get(function(req, res){
+
+        res.render('admin/base.html');
+    });
+
+/*router.route('/projects/create/')
 
     .get(isLogged, function(req, res){
 
         res.render('admin/partials/project-form.html');
-    });
+    });*/
 
 // Admin User
 // ==========
 
 router.route('/join/')
 
-    .get(function(req, res){
+    /*.get(function(req, res){
 
         if(req.isAuthenticated()) res.redirect(ADMIN_ROOT);
         else res.render('admin/partials/join.html');
-    })
+    })*/
 
     .post(bodyParser, function(req, res){
 
@@ -189,8 +197,11 @@ router.route('/join/')
                 if(err) return res.send(err);
 
                 req.login(user, function(err){
+
                     if(err) return res.send(err);
-                    res.redirect(ADMIN_ROOT);
+
+                    //res.redirect(ADMIN_ROOT);
+                    res.send(200);
                 });
             });
         });
@@ -198,11 +209,11 @@ router.route('/join/')
 
 router.route('/login/')
 
-    .get(function(req, res){
+    /*.get(function(req, res){
 
         if(req.isAuthenticated()) res.redirect(ADMIN_ROOT);
         else res.render('admin/partials/login.html');
-    })
+    })*/
 
     // .post(passport.authenticate('digest'/*, {failureRedirect: '/login/', successRedirect: '/admin/'}*/));
 
@@ -214,23 +225,26 @@ router.route('/login/')
 
             if(!user){
                 res.set('WWW-Authenticate', 'x'+info);
+
                 return res.send(401);
             }
 
             req.login(user, function(err){
+
                 if(err) return res.send(err);
-                res.send(200, ADMIN_ROOT);
+
+                res.send(200/*, ADMIN_ROOT*/);
             });
 
         })(req, res, next);
     });
 
-router.route('/logout/')
+/*router.route('/logout/')
 
     .get(function(req, res){
         req.logout();
         res.redirect('/login/');
-    });
+    });*/
 
 app.use(router);
 
