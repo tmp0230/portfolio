@@ -57,7 +57,14 @@ angular.module('myApp.controllers')
 
                 $http({
                     method: 'POST',
-                    url: FORM_URL
+                    url: FORM_URL,
+                }).success(function(data, status){
+                    if(status === 200){
+                        $location.path('/projects/');
+                    }
+                    else if(status === 401){
+                        clientAuth();
+                    }
                 });
             }
             else{
