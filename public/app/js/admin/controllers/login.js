@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('LoginController', ['$scope', '$http', function($scope, $http){
+    .controller('LoginController', ['$scope', function($scope){
 
         var FORM_URL = '/login/';
 
