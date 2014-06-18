@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.services')
-    .sercice('DigestAuth', ['$http', '$location', function($http, $location){
+    .service('DigestAuth', ['$http', '$location', function($http, $location){
 
         var nc = 1,
             realm = null,
@@ -42,12 +42,7 @@ angular.module('myApp.services')
             return $.md5(ha1+':'+nonce+':'+ncSlice+':'+cnonce+':auth:'+ha2);
         };
 
-        // Public
-        // ======
-
-        this.headerExtracted = false;
-
-        this.askHeaderToken = function(FORM_URL, REDIRECT_TO, email, password){
+        var askHeaderToken = function(FORM_URL, REDIRECT_TO, email, password){
 
             $http({
                 method: 'POST',
@@ -57,21 +52,21 @@ angular.module('myApp.services')
                     $location.path(REDIRECT_TO);
                 }
                 else if(status === 401){
-                    this.clientAuth(headers, FORM_URL, REDIRECT_TO, email, password);
+                    clientAuth(headers, FORM_URL, REDIRECT_TO, email, password);
                 }
             });
         };
 
-        this.clientAuth = function(headers, FORM_URL, REDIRECT_TO, email, password){
+        var clientAuth = function(headers, FORM_URL, REDIRECT_TO, email, password){
 
             var passwordHash = $.md5(password);
 
             generateClientNonce();
 
-            if(realm === null && nonce === null){
-                extractInfoHeader(headers);
+            // It means that real and nonce are not defined yet
 
-                this.headerExtracted = true;
+            if(headers !== null){
+                extractInfoHeader(headers);
             }
 
             var response = generateResponse(email, passwordHash, FORM_URL),
@@ -100,4 +95,18 @@ angular.module('myApp.services')
                 }
             });
         };
+
+        // Public
+        // ======
+
+        this.connect = function(FORM_URL, REDIRECT_TO, email, password){
+
+            if(realm === null && nonce === null){
+                askHeaderToken(FORM_URL, REDIRECT_TO, email, password);
+            }
+            else{
+                clientAuth(null, FORM_URL, REDIRECT_TO, email, password);
+            }
+        };
+
     }]);

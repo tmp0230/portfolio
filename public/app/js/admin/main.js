@@ -16,10 +16,7 @@ angular.module('myApp', ['ngRoute', 'myApp.controllers', 'myApp.directives', 'my
                 controller: 'ProjectsController'
             })
             .otherwise({redirectTo: '/login/'});
-    }])
-    .run(function(){
-
-    });
+    }]);
 
 angular.module('myApp.controllers', []);
 angular.module('myApp.directives', []);

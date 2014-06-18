@@ -9,13 +9,10 @@ angular.module('myApp.controllers')
         // $scope
         // ======
 
+        $scope.input = {};
+
         $scope.submitForm = function(){
 
-            if(!this.headerExtracted){
-                DigestAuth.askHeaderToken(FORM_URL, REDIRECT_TO, $scope.input.email, $scope.input.password);
-            }
-            else{
-                DigestAuth.clientAuth(null, FORM_URL, REDIRECT_TO, $scope.input.email, $scope.input.password);
-            }
+            DigestAuth.connect(FORM_URL, REDIRECT_TO, $scope.input.email, $scope.input.password);
         };
     }]);
