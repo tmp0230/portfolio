@@ -47,17 +47,14 @@ angular.module('myApp.services')
             $http({
                 method: 'POST',
                 url: FORM_URL
-            }).success(function(data, status, headers){
-                if(status === 200){
-                    $location.path(REDIRECT_TO);
-                }
-                else if(status === 401){
-                    clientAuth(headers, FORM_URL, REDIRECT_TO, email, password);
-                }
+            }).success(function(){
+                $location.path(REDIRECT_TO);
+            }).error(function(data, status, headers){
+                clientAuth(FORM_URL, REDIRECT_TO, email, password, headers);
             });
         };
 
-        var clientAuth = function(headers, FORM_URL, REDIRECT_TO, email, password){
+        var clientAuth = function(FORM_URL, REDIRECT_TO, email, password, headers){
 
             var passwordHash = $.md5(password);
 
@@ -86,13 +83,10 @@ angular.module('myApp.services')
                 headers: {
                     'Authorization': digestHeader
                 }
-            }).success(function(data, status, headers){
-                if(status === 200){
-                    $location.path(REDIRECT_TO);
-                }
-                else if(status === 401){
-                    extractInfoHeader(headers);
-                }
+            }).success(function(){
+                $location.path(REDIRECT_TO);
+            }).error(function(data, status, headers){
+                extractInfoHeader(headers);
             });
         };
 
@@ -105,7 +99,7 @@ angular.module('myApp.services')
                 askHeaderToken(FORM_URL, REDIRECT_TO, email, password);
             }
             else{
-                clientAuth(null, FORM_URL, REDIRECT_TO, email, password);
+                clientAuth(FORM_URL, REDIRECT_TO, email, password, null);
             }
         };
 
