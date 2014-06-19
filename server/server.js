@@ -239,6 +239,14 @@ router.route('/login/')
         })(req, res, next);
     });
 
+router.route('/loggedin/')
+
+    .get(function(req, res){
+        if(req.isAuthenticated()) return res.send(200);
+
+        return res.send(401);
+    });
+
 /*router.route('/logout/')
 
     .get(function(req, res){

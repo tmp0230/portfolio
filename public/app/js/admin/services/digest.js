@@ -67,13 +67,13 @@ angular.module('myApp.services')
             }
 
             var response = generateResponse(email, passwordHash, FORM_URL),
-                nc = ('00000000'+nc).slice(-8),
+                ncSlice = ('00000000'+nc).slice(-8),
                 digestHeader =  'Digest username="'+email+'", '+
                                 'realm="'+realm+'", '+
                                 'nonce="'+nonce+'", '+
                                 'uri="'+FORM_URL+'", '+
                                 'qop=auth, '+
-                                'nc='+nc+', '+
+                                'nc='+ncSlice+', '+
                                 'cnonce="'+cnonce+'", '+
                                 'response="'+response+'"';
 
