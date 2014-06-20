@@ -11,8 +11,10 @@ angular.module('myApp.controllers')
 
         $scope.input = {};
 
-        $scope.submitForm = function(){
+        $scope.submitForm = function(isFormValid){
 
-            DigestAuth.connect(FORM_URL, REDIRECT_TO, $scope.input.email, $scope.input.password);
+            if(isFormValid){
+                DigestAuth.connect(FORM_URL, REDIRECT_TO, $scope.input.email, $scope.input.password);
+            }
         };
     }]);

@@ -1,22 +1,40 @@
 <div class="container">
     <div class="starter-template">
-        <form role="form" method="post" action="/join/" class="form-inline">
+        <form role="form" name="form" ng-submit="submitForm(form.$valid)" class="form-inline">
             <fieldset>
                 <legend>Join</legend>
                 <div class="form-group">
                     <label for="inputName" class="sr-only">First and Last Name</label>
-                    <input type="text" name="name" id="inputName" class="form-control" placeholder="First and Last Name" maxlength="32" size="25" required>
+                    <input type="text" name="name" ng-model="input.name" id="inputName" class="form-control" placeholder="First and Last Name" ng-maxlength="32" ng-minlength="5" size="25" required>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail" class="sr-only">Email Address</label>
-                    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email Address" maxlength="128" size="25" required>
+                    <input type="email" name="email" ng-model="input.email" id="inputEmail" class="form-control" placeholder="Email Address" ng-maxlength="128" ng-minlength="6" size="25" required>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" size="25" required>
+                    <input type="password" name="password" ng-model="input.password" id="inputPassword" class="form-control" placeholder="Password" ng-maxlength="128" ng-minlength="6" size="25" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Join</button>
             </fieldset>
+            <!-- Client validation -->
+            <div ng-show="form.name.$dirty && form.name.$invalid">
+                <div ng-show="form.name.$error.required" class="alert alert-danger">Name is required</div>
+                <div ng-show="form.name.$error.minlength" class="alert alert-danger">Name is too short</div>
+                <div ng-show="form.name.$error.maxlength" class="alert alert-danger">Name is too long</div>
+            </div>
+            <div ng-show="form.email.$dirty && form.email.$invalid">
+                <div ng-show="form.email.$error.email" class="alert alert-danger">Email Address is not valid</div>
+                <div ng-show="form.email.$error.required" class="alert alert-danger">Email Address is required</div>
+                <div ng-show="form.email.$error.minlength" class="alert alert-danger">Email Address is too short</div>
+                <div ng-show="form.email.$error.maxlength" class="alert alert-danger">Email Address is too long</div>
+            </div>
+            <div ng-show="form.password.$dirty && form.password.$invalid">
+                <div ng-show="form.password.$error.required" class="alert alert-danger">Password is required</div>
+                <div ng-show="form.password.$error.minlength" class="alert alert-danger">Password is too short</div>
+                <div ng-show="form.password.$error.maxlength" class="alert alert-danger">Password is too long</div>
+            </div>
+            <!-- Server validation -->
         </form>
         <p>or <a href="#/login/">Log In</a></p>
     </div>

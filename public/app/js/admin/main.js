@@ -13,7 +13,7 @@ angular.module('myApp', ['ngRoute', 'myApp.controllers', 'myApp.directives', 'my
                 defer.resolve();
             }).error(function(){
                 defer.reject();
-                //$location.path('/login/');
+                $location.path('/login/');
             });
 
             return defer.promise;
@@ -30,7 +30,14 @@ angular.module('myApp', ['ngRoute', 'myApp.controllers', 'myApp.directives', 'my
             })
             .when('/projects/', {
                 templateUrl: '/static/templates/admin/project-list.html',
-                controller: 'ProjectController',
+                controller: 'ProjectListController',
+                resolve: {
+                    loggedin: checkLoggedIn
+                }
+            })
+            .when('/projects/:project_id/', {
+                templateUrl: '/static/templates/admin/project-form.html',
+                controller: 'ProjectFormController',
                 resolve: {
                     loggedin: checkLoggedIn
                 }

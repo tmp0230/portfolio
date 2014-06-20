@@ -1,3 +1,5 @@
+'use strict';
+
 var /*ADMIN_ROOT = '/api/projects',*/
 
     Config = require('./config'),
@@ -25,8 +27,12 @@ passport.use(new DigestStrategy({qop: 'auth'},
     function(username, done){
 
         User.findOne({email: username}, function(err, user){
-            if(err) return done(err);
-            if(!user) return done(null, false);
+            if(err){
+                return done(err);
+            }
+            if(!user){
+                return done(null, false);
+            }
 
             done(null, user, user.password);
         });
@@ -47,10 +53,12 @@ passport.deserializeUser(function(id, done){
 
 var isLogged = function(req, res, next){
 
-    if(req.isAuthenticated()) return next();
+    if(req.isAuthenticated()){
+        return next();
+    }
     //res.redirect('/login/');
     res.send(401);
-}
+};
 
 // App
 // ===
@@ -99,7 +107,9 @@ router.route('/api/projects')
 
         Project.find(function(err, projects){
 
-            if(err) return res.send(err);
+            if(err){
+                return res.send(err);
+            }
 
             /*if(req.is('json'))*/ res.json(projects);
             //else if(req.isAuthenticated()) res.render('admin/partials/project-list.html', {projects: projects});
@@ -114,7 +124,9 @@ router.route('/api/projects')
 
         project.save(function(err){
 
-            if(err) return res.send(err);
+            if(err){
+                return res.send(err);
+            }
 
             res.json(project);
         });
@@ -126,7 +138,9 @@ router.route('/api/projects/:project_id')
 
         Project.findById(req.params.project_id, function(err, project){
 
-            if(err) return res.send(err);
+            if(err){
+                return res.send(err);
+            }
 
             /*if(req.is('json'))*/ res.json(project);
             //else if(req.isAuthenticated()) res.render('admin/partials/project-form.html', {project: project});
@@ -137,7 +151,9 @@ router.route('/api/projects/:project_id')
 
         Project.findByIdAndUpdate(req.params.project_id, req.body, function(err, project){
 
-            if(err) return res.send(err);
+            if(err){
+                return res.send(err);
+            }
 
             res.json(project);
         });
@@ -147,7 +163,9 @@ router.route('/api/projects/:project_id')
 
         Project.findByIdAndRemove(req.params.project_id, function(err){
 
-            if(err) return res.send(err);
+            if(err){
+                return res.send(err);
+            }
 
             res.send(200);
         });
@@ -187,18 +205,26 @@ router.route('/join/')
             password = req.body.password;
 
         User.findOne({email: email}, function(err, user){
-            if(err) return done(err);
-            if(user) return;
+            if(err){
+                return done(err);
+            }
+            if(user){
+                return;
+            }
 
             var user = new User({email: email, password: password});
 
             user.save(function(err){
 
-                if(err) return res.send(err);
+                if(err){
+                    return res.send(err);
+                }
 
                 req.login(user, function(err){
 
-                    if(err) return res.send(err);
+                    if(err){
+                        return res.send(err);
+                    }
 
                     //res.redirect(ADMIN_ROOT);
                     res.send(200);
@@ -221,7 +247,9 @@ router.route('/login/')
 
         passport.authenticate('digest', function(err, user, info){
 
-            if(err) return res.send(err);
+            if(err){
+                return res.send(err);
+            }
 
             if(!user){
                 res.set('WWW-Authenticate', 'x'+info);
@@ -231,7 +259,9 @@ router.route('/login/')
 
             req.login(user, function(err){
 
-                if(err) return res.send(err);
+                if(err){
+                    return res.send(err);
+                }
 
                 res.send(200/*, ADMIN_ROOT*/);
             });
@@ -242,17 +272,19 @@ router.route('/login/')
 router.route('/loggedin/')
 
     .get(function(req, res){
-        if(req.isAuthenticated()) return res.send(200);
+        if(req.isAuthenticated()){
+            return res.send(200);
+        }
 
         return res.send(401);
     });
 
-/*router.route('/logout/')
+router.route('/logout/')
 
     .get(function(req, res){
         req.logout();
-        res.redirect('/login/');
-    });*/
+        res.redirect('/');
+    });
 
 app.use(router);
 

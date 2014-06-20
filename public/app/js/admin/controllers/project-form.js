@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectController', ['$scope', function($scope){
+    .controller('ProjectFormController', ['$scope', function($scope){
 
         // $scope
         // ======
 
-
+        $scope.input = {};
     }]);
