@@ -13,9 +13,9 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="sortable">
+            <tbody id="sortable" my-drag-list>
                 <tr class="warning">
-                    <td>1</td>
+                    <td></td>
                     <td>Les ailes d'Hermès</td>
                     <td>juin 2014</td>
                     <td><a href="http://www.google.fr" target="blank">http://lesoeufscaches.milka.fr</a></td>
@@ -23,7 +23,7 @@
                     <td><a href="/api/projects/id" data-method="delete"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
                 <tr>
-                    <td>2</td>
+                    <td></td>
                     <td>Test</td>
                     <td>Test</td>
                     <td>Test</td>
@@ -31,7 +31,7 @@
                     <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
                 <tr>
-                    <td>3</td>
+                    <td></td>
                     <td>Test</td>
                     <td>Test</td>
                     <td>Test</td>
@@ -42,15 +42,3 @@
         </table>
     </div>
 </div>
-
-<script>
-    $('[data-method]').on('click', function(evt){
-
-        evt.preventDefault();
-
-        $.ajax({
-            type: $(this).attr('data-method').toUpperCase(),
-            url: $(this).attr('href')
-        });
-    });
-</script>

@@ -5,6 +5,11 @@ body{
     padding-top: 50px;
     background-size: cover;
     background-repeat: no-repeat;
+    counter-reset: list-elem-counter;
+}
+
+p{
+    margin-top: 15px;
 }
 
 // Layout
@@ -18,6 +23,13 @@ body{
 // Modules
 // =======
 
-p, .alert{
+.alert{
     margin-top: 15px;
+}
+
+#sortable{
+    tr:not(.ui-sortable-helper) td:first-child:before{
+        content: counter(list-elem-counter);
+        counter-increment: list-elem-counter;
+    }
 }

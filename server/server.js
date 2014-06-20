@@ -1,8 +1,6 @@
 'use strict';
 
-var /*ADMIN_ROOT = '/api/projects',*/
-
-    Config = require('./config'),
+var Config = require('./config'),
     express = require('express'),
     bodyParser = require('body-parser'), // get input data through req.body
     methodOverride = require('method-override'), // use hidden field _method to set put or delete
@@ -56,7 +54,7 @@ var isLogged = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    //res.redirect('/login/');
+
     res.send(401);
 };
 
@@ -111,8 +109,7 @@ router.route('/api/projects')
                 return res.send(err);
             }
 
-            /*if(req.is('json'))*/ res.json(projects);
-            //else if(req.isAuthenticated()) res.render('admin/partials/project-list.html', {projects: projects});
+            res.json(projects);
         });
     })
 
@@ -142,8 +139,7 @@ router.route('/api/projects/:project_id')
                 return res.send(err);
             }
 
-            /*if(req.is('json'))*/ res.json(project);
-            //else if(req.isAuthenticated()) res.render('admin/partials/project-form.html', {project: project});
+            res.json(project);
         });
     })
 
@@ -193,12 +189,6 @@ router.route('/admin/')
 
 router.route('/join/')
 
-    /*.get(function(req, res){
-
-        if(req.isAuthenticated()) res.redirect(ADMIN_ROOT);
-        else res.render('admin/partials/join.html');
-    })*/
-
     .post(bodyParser, function(req, res){
 
         var email = req.body.email,
@@ -209,7 +199,7 @@ router.route('/join/')
                 return done(err);
             }
             if(user){
-                return;
+                return res.send(432); // Mail already exists in DB
             }
 
             var user = new User({email: email, password: password});
@@ -226,7 +216,6 @@ router.route('/join/')
                         return res.send(err);
                     }
 
-                    //res.redirect(ADMIN_ROOT);
                     res.send(200);
                 });
             });
@@ -234,14 +223,6 @@ router.route('/join/')
     });
 
 router.route('/login/')
-
-    /*.get(function(req, res){
-
-        if(req.isAuthenticated()) res.redirect(ADMIN_ROOT);
-        else res.render('admin/partials/login.html');
-    })*/
-
-    // .post(passport.authenticate('digest'/*, {failureRedirect: '/login/', successRedirect: '/admin/'}*/));
 
     .post(function(req, res, next){
 
@@ -263,7 +244,7 @@ router.route('/login/')
                     return res.send(err);
                 }
 
-                res.send(200/*, ADMIN_ROOT*/);
+                res.send(200);
             });
 
         })(req, res, next);
