@@ -6,5 +6,10 @@ angular.module('myApp.controllers')
         // $scope
         // ======
 
+        $scope.deleteProject = function(){
 
+            if(confirm('Are you sure you want to delete ?')){
+                //call del
+            }
+        };
     }]);
