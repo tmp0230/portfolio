@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody id="sortable" my-drag-list>
-                <tr class="warning">
+                <tr class="warning" data-project-id="">
                     <td></td>
                     <td>Les ailes d'Hermès</td>
                     <td>juin 2014</td>
@@ -24,5 +24,6 @@
                 </tr>
             </tbody>
         </table>
+        <button type="button" class="btn btn-success" ng-show="data.saveSort" my-update-sort-button>Save new sort</button>
     </div>
 </div>

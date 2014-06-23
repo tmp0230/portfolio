@@ -1,15 +1,18 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectListController', ['$scope', function($scope){
+    .controller('ProjectListController', ['$scope', 'Projects', function($scope, Projects){
 
         // $scope
         // ======
 
-        $scope.deleteProject = function(){
+        $scope.data = {};
+        $scope.data.saveSort = false;
 
-            if(confirm('Are you sure you want to delete ?')){
-                //call del
+        $scope.deleteProject = function(id, name){
+
+            if(confirm('Are you sure you want to delete '+name+' ?')){
+                Projects.delete({id: id});
             }
         };
     }]);

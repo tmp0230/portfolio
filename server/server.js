@@ -129,11 +129,11 @@ router.route('/api/projects')
         });
     });
 
-router.route('/api/projects/:project_id')
+router.route('/api/projects/:projectId')
 
     .get(function(req, res){
 
-        Project.findById(req.params.project_id, function(err, project){
+        Project.findById(req.params.projectId, function(err, project){
 
             if(err){
                 return res.send(err);
@@ -145,7 +145,7 @@ router.route('/api/projects/:project_id')
 
     .put(isLogged, bodyParser, function(req, res){
 
-        Project.findByIdAndUpdate(req.params.project_id, req.body, function(err, project){
+        Project.findByIdAndUpdate(req.params.projectId, req.body, function(err, project){
 
             if(err){
                 return res.send(err);
@@ -157,7 +157,7 @@ router.route('/api/projects/:project_id')
 
     .delete(isLogged, function(req, res){
 
-        Project.findByIdAndRemove(req.params.project_id, function(err){
+        Project.findByIdAndRemove(req.params.projectId, function(err){
 
             if(err){
                 return res.send(err);
