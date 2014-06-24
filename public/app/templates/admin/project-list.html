@@ -14,13 +14,13 @@
                 </tr>
             </thead>
             <tbody id="sortable" my-drag-list>
-                <tr class="warning" data-project-id="">
+                <tr ng-class="{warning: !project.publish}">
                     <td></td>
-                    <td>Les ailes d'Hermès</td>
-                    <td>juin 2014</td>
-                    <td><a href="http://www.google.fr" target="blank">http://lesoeufscaches.milka.fr</a></td>
-                    <td><a href="/api/projects/id"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a ng-click="deleteProject()"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <td>{{project.title}}</td>
+                    <td>{{project.date|date: 'MMMM yyyy'}}</td>
+                    <td><a ng-href="{{project.link}}" target="blank">{{project.link}}</a></td>
+                    <td><a ng-href="/projects/{{project.id}}/"><span class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a ng-click="deleteProject(project)"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </tbody>
         </table>

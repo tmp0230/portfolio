@@ -9,10 +9,10 @@ angular.module('myApp.controllers')
         $scope.data = {};
         $scope.data.saveSort = false;
 
-        $scope.deleteProject = function(id, name){
+        $scope.deleteProject = function(project){
 
-            if(confirm('Are you sure you want to delete '+name+' ?')){
-                Projects.delete({id: id});
+            if(confirm('Are you sure you want to delete '+project.name+' ?')){
+                project.$delete();
             }
         };
     }]);

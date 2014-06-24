@@ -9,7 +9,7 @@ angular.module('myApp.directives')
                 var els = el.parent().find('tr');
 
                 for(var i = 0, len = els.length; i<len; i++){
-                    Projects.update({id: els.eq(i).data('projectId')});
+                    //Projects.update({id: els.eq(i).data('projectId')}, {position: });
                 }
             });
         };

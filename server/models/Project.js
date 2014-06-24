@@ -8,9 +8,10 @@ var mongoose = require('mongoose'),
         description: String,
         date: Date,
         link: {type: String, lowercase: true},
-        technical: String,
-        team: String,
+        technical: Objectid,
+        team: ObjectId,
         credits: String,
+        position: Number,
         publish: {type: Boolean, required: true}
     });
 

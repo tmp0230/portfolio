@@ -177,13 +177,6 @@ router.route('/admin/')
         res.render('admin/base.html');
     });
 
-/*router.route('/projects/create/')
-
-    .get(isLogged, function(req, res){
-
-        res.render('admin/partials/project-form.html');
-    });*/
-
 // Admin User
 // ==========
 
