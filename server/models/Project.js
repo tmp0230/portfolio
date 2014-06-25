@@ -2,15 +2,20 @@
 
 var mongoose = require('mongoose'),
 
+    TagSchema = new mongoose.Schema({
+        name: {type: String, unique: true, required: true},
+        link: {type: String, lowercase: true}
+    }),
+
     ProjectSchema = new mongoose.Schema({
         title: {type: String, required: true},
         slug: {type: String, required: true, unique: true},
         description: String,
         date: Date,
         link: {type: String, lowercase: true},
-        technical: Objectid,
-        team: ObjectId,
-        credits: String,
+        technical: [TagSchema],
+        team: [TagSchema],
+        credits: [TagSchema],
         position: Number,
         publish: {type: Boolean, required: true}
     });
