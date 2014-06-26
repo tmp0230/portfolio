@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp', ['ngRoute', 'myApp.controllers', 'myApp.directives', 'myApp.services'])
+angular.module('myApp', ['ngRoute', 'ngResource', 'myApp.controllers', 'myApp.directives', 'myApp.services'])
     .config(['$routeProvider', function($routeProvider){
 
         var checkLoggedIn = function($q, $http, $location){
@@ -42,7 +42,7 @@ angular.module('myApp', ['ngRoute', 'myApp.controllers', 'myApp.directives', 'my
                     loggedin: checkLoggedIn
                 }
             })
-            .otherwise({redirectTo: '/login/'});
+            .otherwise({redirectTo: '/projects/'});
     }]);
 
 angular.module('myApp.controllers', []);

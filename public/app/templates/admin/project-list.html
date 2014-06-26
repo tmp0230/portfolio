@@ -19,7 +19,7 @@
                     <td>{{project.title}}</td>
                     <td>{{project.date|date: 'MMMM yyyy'}}</td>
                     <td><a ng-href="{{project.link}}" target="blank">{{project.link}}</a></td>
-                    <td><a ng-href="/projects/{{project.id}}/"><span class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a ng-href="#/projects/{{project.id}}/"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td><a ng-click="deleteProject(project)"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </tbody>
