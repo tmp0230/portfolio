@@ -2,6 +2,7 @@
 // TODO: When gulp 4 will be out, remove gulp.start() in clean (something will allow to do so) and check error comportments (lint)
 // TODO: Fix copyFiles vars glob syntax
 // TODO: Add beep to lint task
+// TODO: Add uncss task
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),

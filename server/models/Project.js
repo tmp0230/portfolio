@@ -3,13 +3,13 @@
 var mongoose = require('mongoose'),
 
     TagSchema = new mongoose.Schema({
-        name: {type: String, unique: true, required: true},
+        name: {type: String, unique: true, required: true, sparse: true}, // sparse allows multiple null values with unique attribute
         link: {type: String, lowercase: true}
     }),
 
     ProjectSchema = new mongoose.Schema({
         title: {type: String, required: true},
-        slug: {type: String, required: true, unique: true},
+        slug: {type: String, unique: true},
         description: String,
         date: Date,
         link: {type: String, lowercase: true},
@@ -17,7 +17,7 @@ var mongoose = require('mongoose'),
         team: [TagSchema],
         credits: [TagSchema],
         position: Number,
-        publish: {type: Boolean, required: true}
+        publish: {type: Boolean}
     });
 
     ProjectSchema.pre('save', function(next){

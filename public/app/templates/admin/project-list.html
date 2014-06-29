@@ -13,17 +13,17 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="sortable" my-drag-list>
-                <tr ng-repeat="project in projects" ng-class="{warning: !project.publish}">
+            <tbody id="sortable" ui-sortable="sortableOptions" ng-model="data.projects">
+                <tr ng-repeat="project in data.projects" ng-class="{warning: !project.publish}">
                     <td></td>
                     <td>{{project.title}}</td>
                     <td>{{project.date|date: 'MMMM yyyy'}}</td>
                     <td><a ng-href="{{project.link}}" target="blank">{{project.link}}</a></td>
-                    <td><a ng-href="#/projects/{{project.id}}/"><span class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a ng-href="#/projects/{{project._id}}/"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td><a ng-click="deleteProject(project)"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-success" ng-show="data.saveSort" my-update-sort-button>Save new sort</button>
+        <button type="button" class="btn btn-success" ng-show="data.saveSort" ng-click="updateSort()">Save new sort</button>
     </div>
 </div>

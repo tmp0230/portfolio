@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp', ['ngRoute', 'ngResource', 'myApp.controllers', 'myApp.directives', 'myApp.services'])
+angular.module('myApp', ['ngRoute', 'ngResource', 'ui.sortable', 'myApp.controllers', 'myApp.directives', 'myApp.services'])
     .config(['$routeProvider', function($routeProvider){
 
         var checkLoggedIn = function($q, $http, $location){
@@ -35,9 +35,16 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'myApp.controllers', 'myApp.di
                     loggedin: checkLoggedIn
                 }
             })
-            .when('/projects/:project_id/', {
+            .when('/projects/create/', {
                 templateUrl: '/static/templates/admin/project-form.html',
-                controller: 'ProjectFormController',
+                controller: 'ProjectCreateController',
+                resolve: {
+                    loggedin: checkLoggedIn
+                }
+            })
+            .when('/projects/:projectId/', {
+                templateUrl: '/static/templates/admin/project-form.html',
+                controller: 'ProjectUpdateController',
                 resolve: {
                     loggedin: checkLoggedIn
                 }

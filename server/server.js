@@ -1,3 +1,5 @@
+// TODO: Check if bodyParser() is correct
+
 'use strict';
 
 var Config = require('./config'),
@@ -113,16 +115,14 @@ router.route('/api/projects')
         });
     })
 
-    .post(isLogged, function(req, res){
+    .post(isLogged, bodyParser(), function(req, res){
 
-        var project = new Project();
-
-        // ...
+        var project = new Project(req.body);
 
         project.save(function(err){
 
             if(err){
-                return res.send(err);
+                return res.send(500);
             }
 
             res.json(project);
@@ -143,7 +143,7 @@ router.route('/api/projects/:projectId')
         });
     })
 
-    .put(isLogged, bodyParser, function(req, res){
+    .put(isLogged, bodyParser(), function(req, res){
 
         Project.findByIdAndUpdate(req.params.projectId, req.body, function(err, project){
 
