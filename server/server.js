@@ -122,7 +122,7 @@ router.route('/api/projects')
         project.save(function(err){
 
             if(err){
-                return res.send(500);
+                return res.send(err.code);
             }
 
             res.json(project);
