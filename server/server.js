@@ -97,6 +97,7 @@ nunjucks.configure(__dirname + '/../templates', {
 
 //router.route('/').get(listProjects);
 //router.route('/projects/:project_slug/').get(showProject);
+// if(process.env.NODE_ENV === 'prod')
 
 // API
 // ===
@@ -144,6 +145,8 @@ router.route('/api/projects/:projectId')
     })
 
     .put(isLogged, bodyParser(), function(req, res){
+
+        delete req.body._id;
 
         Project.findByIdAndUpdate(req.params.projectId, req.body, function(err, project){
 

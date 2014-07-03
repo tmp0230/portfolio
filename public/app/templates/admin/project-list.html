@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody id="sortable" ui-sortable="sortableOptions" ng-model="data.projects">
-                <tr ng-repeat="project in data.projects" ng-class="{warning: !project.publish}">
+                <tr ng-repeat="project in data.projects | orderBy:'position'" ng-class="{warning: !project.publish}">
                     <td></td>
                     <td>{{project.title}}</td>
                     <td>{{project.date|date: 'MMMM yyyy'}}</td>

@@ -1,4 +1,3 @@
-// TODO: When processhtml will be updated with environment, remove Templates Dev section
 // TODO: When gulp 4 will be out, remove gulp.start() in clean (something will allow to do so) and check error comportments (lint)
 // TODO: Fix copyFiles vars glob syntax
 // TODO: Add beep to lint task
@@ -10,7 +9,6 @@ var gulp = require('gulp'),
 
     clean = require('gulp-clean'),
     nunjucks = require('gulp-nunjucks'),
-    processhtml = require('gulp-processhtml'),
     uncss = require('gulp-uncss'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
@@ -19,6 +17,7 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     compass = require('gulp-compass'),
     jshint = require('gulp-jshint'),
+
 
 // Variables
 // =========
@@ -42,6 +41,7 @@ var gulp = require('gulp'),
             //'!public/app/js/**',
         ] // Copy all excepts js and compass
     };
+
 
 // Scripts
 // =======
@@ -74,6 +74,7 @@ gulp.task('libs', function(){
         .pipe(gulp.dest('public/dist/js/libs'));
 });
 
+
 // Styles
 // ======
 
@@ -99,6 +100,7 @@ gulp.task('cleanCss', ['css'], function(){
         .pipe(clean());
 });
 
+
 // Copy
 // ====
 
@@ -108,49 +110,30 @@ gulp.task('copy', function(){
         .pipe(livereload());
 });
 
+
 // Templates
 // =========
 
-// Prod
-
-gulp.task('templates', ['generateLayout'], function(){
-    return gulp.src(['templates/**/*.html', '!templates/admin{,/**}', '!templates/layout{,/**}', '!templates/extends{,/**}'])
-        .pipe(nunjucks())
-        .pipe(gulp.dest('public/dist/jst'));
-});
-
-gulp.task('generateLayout', function(){
-    return gulp.src('templates/layout/base.html.original')
-        .pipe(processhtml('base.html'))
-        .pipe(gulp.dest('templates/layout'));
-});
-
-// Dev
-
-gulp.task('templatesDev', ['generateLayoutDev'], function(){
+gulp.task('templates', function(){
     return gulp.src(['templates/**/*.html', '!templates/admin{,/**}', '!templates/layout{,/**}', '!templates/extends{,/**}'])
         .pipe(nunjucks())
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());
 });
 
-gulp.task('generateLayoutDev', function(){
-    return gulp.src('templates/layout/base.html.original')
-        .pipe(rename('base.html'))
-        .pipe(gulp.dest('templates/layout'));
-});
 
 // Watch
 // =====
 
-gulp.task('watch', ['templatesDev', 'cleanCss', 'scripts', 'libs', 'copy'], function(){
-    gulp.watch(['templates/layout/base.html.original', 'templates/**/*.html'], ['templatesDev']);
+gulp.task('watch', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], function(){
+    gulp.watch(['templates/layout/base.html.original', 'templates/**/*.html'], ['templates']);
     gulp.watch('public/app/scss/**/*.scss', ['cleanCss']);
     gulp.watch('public/app/js/admin/**/*.js', ['lint']);
     gulp.watch(paths.scripts, ['scripts']);
     gulp.watch(paths.vendors, ['libs']);
     gulp.watch(paths.copyFiles, ['copy']);
 });
+
 
 // Clean
 // =====
@@ -159,6 +142,7 @@ gulp.task('clean', function(){
     return gulp.src(['**/.DS_Store', 'public/dist', 'templates/layout/base.html', 'npm-debug.log', 'public/app/.sass-cache'], {read: false})
         .pipe(clean());
 });
+
 
 // Tasks
 // =====

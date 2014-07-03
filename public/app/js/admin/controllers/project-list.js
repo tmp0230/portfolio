@@ -36,7 +36,7 @@ angular.module('myApp.controllers')
                 
                 $scope.data.saveSort = true;
 
-                for(var i = 0, len = $scope.data.projects.length; i < len; i++){
+                for(var i=0, len=$scope.data.projects.length; i<len; i++){
                     $scope.data.projects[i].position = i;
                 }
             }
