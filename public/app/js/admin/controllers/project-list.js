@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectListController', ['$scope', '$timeout', 'Project', function($scope, $timeout, Project){
+    .controller('ProjectListController', ['$scope', 'Project', 'orderByFilter', function($scope, Project, orderByFilter){
 
         // $scope
         // ======
@@ -9,7 +9,9 @@ angular.module('myApp.controllers')
         $scope.data = {};
         $scope.data.saveSort = false;
         $scope.data.menuList = true;
-        $scope.data.projects = Project.query();
+        $scope.data.projects = Project.query(function(){
+            $scope.data.projects = orderByFilter($scope.data.projects, ['position']);
+        });
 
         $scope.updateSort = function(){
 
@@ -35,14 +37,13 @@ angular.module('myApp.controllers')
             update: function(){
 
                 $scope.data.saveSort = true;
-                console.log($scope.data.projects);
-                // timeout is needed in order to update DOM before parsing ressource array
 
-                $timeout(function(){
+                $scope.$watch('data.projects', function(){
+
                     for(var i=0, len=$scope.data.projects.length; i<len; i++){
                         $scope.data.projects[i].position = i;
                     }
-                }, 0);
+                });
             }
         };
     }]);
