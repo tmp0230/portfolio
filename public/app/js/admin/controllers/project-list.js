@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectListController', ['$scope', 'Project', function($scope, Project){
+    .controller('ProjectListController', ['$scope', '$timeout', 'Project', function($scope, $timeout, Project){
 
         // $scope
         // ======
@@ -12,7 +12,7 @@ angular.module('myApp.controllers')
         $scope.data.projects = Project.query();
 
         $scope.updateSort = function(){
-            
+
             for(var i = 0, len = $scope.data.projects.length; i < len; i++){
                 $scope.data.projects[i].$update();
             }
@@ -22,7 +22,7 @@ angular.module('myApp.controllers')
 
             if(confirm('Are you sure you want to delete '+project.title+' ?')){
                 project.$delete(function(){
-                    
+
                     // Remove it from client representation
 
                     var index = $scope.data.projects.indexOf(project);
@@ -33,12 +33,16 @@ angular.module('myApp.controllers')
 
         $scope.sortableOptions = {
             update: function(){
-                
-                $scope.data.saveSort = true;
 
-                for(var i=0, len=$scope.data.projects.length; i<len; i++){
-                    $scope.data.projects[i].position = i;
-                }
+                $scope.data.saveSort = true;
+                console.log($scope.data.projects);
+                // timeout is needed in order to update DOM before parsing ressource array
+
+                $timeout(function(){
+                    for(var i=0, len=$scope.data.projects.length; i<len; i++){
+                        $scope.data.projects[i].position = i;
+                    }
+                }, 0);
             }
         };
     }]);
