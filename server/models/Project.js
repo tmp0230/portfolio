@@ -7,6 +7,11 @@ var mongoose = require('mongoose'),
         link: {type: String, lowercase: true}
     }),
 
+    MediaSchema = new mongoose.Schema({
+        imgSrc: String,
+        vimeoId: String
+    }),
+
     ProjectSchema = new mongoose.Schema({
         title: {type: String, required: true},
         slug: {type: String, unique: true},
@@ -16,6 +21,7 @@ var mongoose = require('mongoose'),
         technical: [TagSchema],
         team: [TagSchema],
         credits: [TagSchema],
+        media: [MediaSchema],
         position: Number,
         publish: {type: Boolean}
     });

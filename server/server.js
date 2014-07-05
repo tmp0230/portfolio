@@ -12,6 +12,7 @@ var Config = require('./config'),
     nunjucks = require('nunjucks'),
     passport = require('passport'),
     morgan = require('morgan'),
+    fs = require('fs'),
     DigestStrategy  = require('passport-http').DigestStrategy,
     app = express(),
     router = express.Router(),
@@ -109,7 +110,7 @@ router.route('/api/projects')
         Project.find(function(err, projects){
 
             if(err){
-                return res.send(err);
+                return res.send(err.code, err.message);
             }
 
             res.json(projects);
@@ -123,7 +124,7 @@ router.route('/api/projects')
         project.save(function(err){
 
             if(err){
-                return res.send(err.code);
+                return res.send(err.code, err.message);
             }
 
             res.json(project);
@@ -137,7 +138,7 @@ router.route('/api/projects/:projectId')
         Project.findById(req.params.projectId, function(err, project){
 
             if(err){
-                return res.send(err);
+                return res.send(err.code, err.message);
             }
 
             res.json(project);
@@ -151,7 +152,7 @@ router.route('/api/projects/:projectId')
         Project.findByIdAndUpdate(req.params.projectId, req.body, function(err, project){
 
             if(err){
-                return res.send(err);
+                return res.send(err.code, err.message);
             }
 
             res.json(project);
@@ -163,7 +164,7 @@ router.route('/api/projects/:projectId')
         Project.findByIdAndRemove(req.params.projectId, function(err){
 
             if(err){
-                return res.send(err);
+                return res.send(err.code, err.message);
             }
 
             res.send(200);
@@ -192,10 +193,10 @@ router.route('/join/')
 
         User.findOne({email: email}, function(err, user){
             if(err){
-                return done(err);
+                return res.send(err.code, err.message);
             }
             if(user){
-                return res.send(432); // Mail already exists in DB
+                return res.send(432, 'This email already exists'); // Mail already exists in DB
             }
 
             var user = new User({email: email, password: password});
@@ -203,13 +204,13 @@ router.route('/join/')
             user.save(function(err){
 
                 if(err){
-                    return res.send(err);
+                    return res.send(err.code, err.message);
                 }
 
                 req.login(user, function(err){
 
                     if(err){
-                        return res.send(err);
+                        return res.send(err.code);
                     }
 
                     res.send(200);
@@ -225,7 +226,7 @@ router.route('/login/')
         passport.authenticate('digest', function(err, user, info){
 
             if(err){
-                return res.send(err);
+                return res.send(err.code);
             }
 
             if(!user){
@@ -237,7 +238,7 @@ router.route('/login/')
             req.login(user, function(err){
 
                 if(err){
-                    return res.send(err);
+                    return res.send(err.code);
                 }
 
                 res.send(200);

@@ -15,7 +15,10 @@ angular.module('myApp.controllers')
         $scope.submitForm = function(isFormValid){
 
             if(isFormValid){
-
+                $scope.data.success = false;
+                $scope.data.project.$update(function(){
+                    $scope.data.success = true;
+                });
             }
         };
 
