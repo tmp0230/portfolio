@@ -34,8 +34,8 @@
                 </div>
                 <div class="form-group">
                     <label for="inputTechnical" class="col-sm-2 control-label">Technical</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="technical" ng-model="input.technical" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)">
+                    <div class="input-group col-sm-10">
+                        <input type="text" name="technical" ng-model="input.technical" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)" my-input-speller>
                     </div>
                 </div>
                 <div class="form-group">
@@ -51,22 +51,24 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">Videos</label>
+                    <div class="input-group col-sm-10" ng-class="{'repeated col-sm-offset-2': $index > 0}" ng-repeat="vimeo in data.vimeo">
+                        <input type="text" name="vimeo" ng-model="input.vimeo" class="form-control" placeholder="Vimeo ID">
+                        <div class="input-group-addon" ng-click="addField('video')" ng-show="$index === 0"><span class="glyphicon glyphicon-plus"></span></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Images</label>
+                    <div class="input-group col-sm-10" ng-class="{'repeated col-sm-offset-2': $index > 0}" ng-repeat="file in data.file">
+                        <input type="file" name="file" ng-model="input.file" class="form-control">
+                        <div class="input-group-addon" ng-click="addField('file')" ng-show="$index === 0"><span class="glyphicon glyphicon-plus"></span></div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label><input type="checkbox" name="publish" ng-model="input.publish">Publish</label>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputFile" class="col-sm-2 control-label">Images</label>
-                    <div class="col-sm-10">
-                        <input type="file" name="file" id="inputFile" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputVimeo" class="col-sm-2 control-label">Vimeo videos</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="vimeo" ng-model="input.vimeo" class="form-control" id="inputVimeo" placeholder="Vimeo video ID">
                     </div>
                 </div>
 

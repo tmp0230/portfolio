@@ -2,14 +2,10 @@
 
 var mongoose = require('mongoose'),
 
-    TagSchema = new mongoose.Schema({
-        name: {type: String, unique: true, required: true, sparse: true}, // sparse allows multiple null values with unique attribute
-        link: {type: String, lowercase: true}
-    }),
-
     MediaSchema = new mongoose.Schema({
         imgSrc: String,
-        vimeoId: String
+        vimeoId: String,
+        position: Number
     }),
 
     ProjectSchema = new mongoose.Schema({
@@ -18,12 +14,12 @@ var mongoose = require('mongoose'),
         description: String,
         date: Date,
         link: {type: String, lowercase: true},
-        technical: [TagSchema],
-        team: [TagSchema],
-        credits: [TagSchema],
+        technical: [String],
+        team: [String],
+        credits: [String],
         media: [MediaSchema],
         position: Number,
-        publish: {type: Boolean}
+        publish: Boolean
     });
 
     ProjectSchema.pre('save', function(next){

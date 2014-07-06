@@ -11,6 +11,8 @@ angular.module('myApp.controllers')
         $scope.input = {};
         $scope.data = {};
         $scope.data.menuCreate = true;
+        $scope.data.vimeo = [{}];
+        $scope.data.file = [{}];
 
         $scope.submitForm = function(isFormValid){
 
@@ -20,5 +22,19 @@ angular.module('myApp.controllers')
                     $location.path('/projects/'+proj._id+'/');
                 });
             }
+        };
+
+        $scope.addField = function(type){
+
+            var arrayType;
+
+            if(type === 'file'){
+                arrayType = $scope.data.file;
+            }
+            else{
+                arrayType = $scope.data.vimeo;
+            }
+
+            arrayType.unshift({});
         };
     }]);
