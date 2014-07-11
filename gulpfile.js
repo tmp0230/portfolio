@@ -1,5 +1,4 @@
 // TODO: When gulp 4 will be out, remove gulp.start() in clean (something will allow to do so) and check error comportments (lint)
-// TODO: Fix copyFiles vars glob syntax
 // TODO: Add beep to lint task
 // TODO: Add uncss task
 
@@ -34,12 +33,10 @@ var gulp = require('gulp'),
             'public/app/js/libs/**/*.js'
         ],
         copyFiles: [
-            'public/app/**',
-            '!public/app/scss{,/**}',
-            '!public/app/.sass-cache{,/**}'
-            //'public/app/js/admin/**/*.js', // Admin scripts
-            //'!public/app/js/**',
-        ] // Copy all excepts js and compass
+            'public/app/*',
+            'public/app/img/**',
+            'public/app/js/admin/**/*.js',
+        ] // Copy root files, img folder and admin js (that are not uglified)
     };
 
 
@@ -49,9 +46,9 @@ var gulp = require('gulp'),
 gulp.task('lint', function(){
     return gulp.src([paths.scripts.toString(), 'public/app/js/admin/**/*.js', '!public/app/js/admin/libs/**'])
         .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        //.pipe(jshint.reporter('fail')
-        //    .on('error', gutil.beep));
+        .pipe(jshint.reporter('jshint-stylish'))
+        // .pipe(jshint.reporter('fail')
+        //     .on('error', gutil.beep));
 })
 
 gulp.task('scripts', ['lint'], function(){
@@ -97,7 +94,7 @@ gulp.task('css', function(){
 
 gulp.task('cleanCss', ['css'], function(){
     return gulp.src('public/app/css', {read: false})
-        .pipe(clean());
+        //.pipe(clean());
 });
 
 
@@ -115,7 +112,7 @@ gulp.task('copy', function(){
 // =========
 
 gulp.task('templates', function(){
-    return gulp.src(['templates/**/*.html', '!templates/admin{,/**}', '!templates/layout{,/**}', '!templates/extends{,/**}'])
+    return gulp.src('templates/partials/**/*.html')
         .pipe(nunjucks())
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());
@@ -126,7 +123,7 @@ gulp.task('templates', function(){
 // =====
 
 gulp.task('watch', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], function(){
-    gulp.watch(['templates/layout/base.html.original', 'templates/**/*.html'], ['templates']);
+    gulp.watch(['templates/**/*.html'], ['templates']);
     gulp.watch('public/app/scss/**/*.scss', ['cleanCss']);
     gulp.watch('public/app/js/admin/**/*.js', ['lint']);
     gulp.watch(paths.scripts, ['scripts']);
@@ -139,7 +136,7 @@ gulp.task('watch', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], functio
 // =====
 
 gulp.task('clean', function(){
-    return gulp.src(['**/.DS_Store', 'public/dist', 'templates/layout/base.html', 'npm-debug.log', 'public/app/.sass-cache'], {read: false})
+    return gulp.src(['**/.DS_Store', 'public/dist', 'npm-debug.log', 'public/app/.sass-cache'], {read: false})
         .pipe(clean());
 });
 
