@@ -94,7 +94,7 @@ gulp.task('css', function(){
 
 gulp.task('cleanCss', ['css'], function(){
     return gulp.src('public/app/css', {read: false})
-        //.pipe(clean());
+        .pipe(clean());
 });
 
 
@@ -123,7 +123,7 @@ gulp.task('templates', function(){
 // =====
 
 gulp.task('watch', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], function(){
-    gulp.watch(['templates/**/*.html'], ['templates']);
+    gulp.watch('templates/**/*.html', ['templates']);
     gulp.watch('public/app/scss/**/*.scss', ['cleanCss']);
     gulp.watch('public/app/js/admin/**/*.js', ['lint']);
     gulp.watch(paths.scripts, ['scripts']);
