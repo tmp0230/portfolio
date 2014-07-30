@@ -36,6 +36,7 @@ var gulp = require('gulp'),
             'public/app/*',
             'public/app/img/**',
             'public/app/js/admin/**/*.js',
+            'public/app/templates/admin/**/*.html',
         ] // Copy root files, img folder and admin js (that are not uglified)
     };
 
