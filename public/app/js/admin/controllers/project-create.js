@@ -18,6 +18,9 @@ angular.module('myApp.controllers')
 
             if(isFormValid){
                 var project = new Project($scope.input);
+
+                
+
                 project.$save(function(proj){
                     $location.path('/projects/'+proj._id+'/');
                 });
