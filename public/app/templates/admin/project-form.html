@@ -2,92 +2,118 @@
 
 <div class="container">
     <div class="starter-template">
-        <form role="form" name="form" ng-submit="submitForm(form.$valid)" class="form-horizontal">
-            <fieldset>
-                <legend class="col-sm-offset-2 col-sm-10">
-                    <span ng-hide="data.project">Create a new project</span>
-                    <span ng-show="data.project">Update {{data.project.title}}</span>
-                </legend>
-                <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">Title*</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="title" ng-model="input.title" class="form-control" id="inputTitle" placeholder="Title (required)" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputDescription" class="col-sm-2 control-label">Description</label>
-                    <div class="col-sm-10">
-                        <textarea name="description" ng-model="input.description" id="inputDescription" class="form-control" placeholder="Description" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputDate" class="col-sm-2 control-label">Date</label>
-                    <div class="col-sm-10">
-                        <input type="date" name="date" ng-model="input.date" class="form-control" id="inputDate" placeholder="Date">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputLink" class="col-sm-2 control-label">Link</label>
-                    <div class="col-sm-10">
-                        <input type="url" name="link" ng-model="input.link" class="form-control" id="inputLink" placeholder="Link">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputTechnical" class="col-sm-2 control-label">Technical</label>
-                    <div class="input-group col-sm-10">
-                        <input type="text" name="technical" ng-model="input.technical" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputTeam" class="col-sm-2 control-label">Team</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="team" ng-model="input.team" class="form-control" id="inputTeam" placeholder="Team member (coma separated)">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputCredit" class="col-sm-2 control-label">Credits</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="credit" ng-model="input.credit" class="form-control" id="inputCredit" placeholder="Credits (coma separated)">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Videos</label>
-                    <div class="input-group col-sm-10" ng-class="{'repeated col-sm-offset-2': $index > 0}" ng-repeat="vimeo in data.vimeo">
-                        <input type="text" name="vimeo" ng-model="input.vimeo" class="form-control" placeholder="Vimeo ID">
-                        <div class="input-group-addon" ng-click="addField('video')" ng-show="$index === 0"><span class="glyphicon glyphicon-plus"></span></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Images</label>
-                    <div class="input-group col-sm-10" ng-class="{'repeated col-sm-offset-2': $index > 0}" ng-repeat="file in data.file">
-                        <input type="file" name="file" ng-model="input.file" class="form-control">
-                        <div class="input-group-addon" ng-click="addField('file')" ng-show="$index === 0"><span class="glyphicon glyphicon-plus"></span></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label><input type="checkbox" name="publish" ng-model="input.publish">Publish</label>
+        <h2 ng-hide="data.project">Create a new project</h2>
+        <h2 ng-show="data.project">Update {{data.project.title}}</h2>
+        <ul class="nav nav-tabs" role="tablist">
+          <li ng-class="{active: data.isShowingInfo}"><a role="tab" ng-click="showTab('information')">Information</a></li>
+          <li ng-class="{active: !data.isShowingInfo}"><a role="tab" ng-click="showTab('media')" ng-show="data.project && data.project.media.length > 0">Media</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" ng-show="data.isShowingInfo || !data.project">
+                <form role="form" name="form" ng-submit="submitForm(form.$valid)" class="form-horizontal" enctype="multipart/form-data">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="inputTitle" class="col-sm-2 control-label">Title*</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="title" ng-model="input.title" class="form-control" id="inputTitle" placeholder="Title (required)" required>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea name="description" ng-model="input.description" id="inputDescription" class="form-control" placeholder="Description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDate" class="col-sm-2 control-label">Date</label>
+                            <div class="col-sm-10">
+                                <input type="date" name="date" ng-model="input.date" class="form-control" id="inputDate" placeholder="Date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputLink" class="col-sm-2 control-label">Link</label>
+                            <div class="col-sm-10">
+                                <input type="url" name="link" ng-model="input.link" class="form-control" id="inputLink" placeholder="Link">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTechnical" class="col-sm-2 control-label">Technical</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="technical" ng-model="input.technical" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTeam" class="col-sm-2 control-label">Team</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="team" ng-model="input.team" class="form-control" id="inputTeam" placeholder="Team member (coma separated)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCredit" class="col-sm-2 control-label">Credits</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="credit" ng-model="input.credit" class="form-control" id="inputCredit" placeholder="Credits (coma separated)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Videos</label>
+                            <div class="col-sm-10" ng-class="$index === 0 ? 'input-group' : 'repeated col-sm-offset-2'" ng-repeat="vimeo in data.vimeo">
+                                <input type="text" name="vimeo" class="form-control" placeholder="Vimeo ID" ng-model="data.vimeo[$index].vimeoId">
+                                <div class="input-group-addon" ng-click="addField('video')" ng-show="$index === 0"><span class="glyphicon glyphicon-plus"></span></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Images</label>
+                            <div class="input-group col-sm-10" ng-class="{'repeated col-sm-offset-2': $index > 0}" ng-repeat="file in data.file">
+                                <input type="file" name="file" class="form-control" ng-file-select="onFileSelect($files)">
+                                <div class="input-group-addon" ng-click="addField('file')" ng-show="$index === 0"><span class="glyphicon glyphicon-plus"></span></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="publish" ng-model="input.publish">Publish</label>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success" ng-show="form.$valid && !data.project">Save</button>
-                        <button type="submit" class="btn btn-success" ng-show="form.$valid && form.$dirty && data.project">Update</button>
-                        <button type="button" class="btn btn-danger" ng-show="data.project" ng-click="deleteProject()">Delete</button>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" ng-show="form.$valid && !data.project">Save</button>
+                                <button type="submit" class="btn btn-success" ng-show="form.$valid && form.$dirty && data.project">Update</button>
+                                <button type="button" class="btn btn-danger" ng-show="data.project" ng-click="deleteProject()">Delete</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Client validation -->
+                    <div ng-show="form.title.$dirty && form.title.$invalid">
+                        <div ng-show="form.title.$error.required" class="alert alert-danger col-sm-offset-2 col-sm-10">Title is required</div>
                     </div>
+                    <!-- Server validation -->
+                    <div class="alert alert-success col-sm-offset-2 col-sm-10" ng-show="data.success">
+                        <strong>Success !</strong> The project has been successfully updated.
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" ng-show="data.project.media.length > 0 && !data.isShowingInfo">
+                <div class="col-sm-offset-1 col-sm-10">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable" ui-sortable="sortableOptions" ng-model="data.project.media">
+                            <tr ng-repeat="media in data.project.media">
+                                <td></td>
+                                <td>{{media.imgName}}{{media.vimeoId}}</td>
+                                <td><a ng-click="deleteMedia(media)"><span class="glyphicon glyphicon-trash"></span></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </fieldset>
-            <!-- Client validation -->
-            <div ng-show="form.title.$dirty && form.title.$invalid">
-                <div ng-show="form.title.$error.required" class="alert alert-danger col-sm-offset-2 col-sm-10">Title is required</div>
             </div>
-            <!-- Server validation -->
-            <div class="alert alert-success col-sm-offset-2 col-sm-10" ng-show="data.success">
-                <strong>Success !</strong> The project has been successfully updated.
-            </div>
-        </form>
+        </div>
     </div>
 </div>

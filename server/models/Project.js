@@ -3,6 +3,7 @@
 var mongoose = require('mongoose'),
 
     MediaSchema = new mongoose.Schema({
+        imgName: String,
         imgSrc: String,
         vimeoId: String,
         position: Number

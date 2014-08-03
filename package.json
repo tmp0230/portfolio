@@ -18,7 +18,8 @@
     "nunjucks": "1.0.x",
     "passport": "0.2.x",
     "passport-http": "0.2.x",
-    "connect-flash": "0.1.x"
+    "connect-flash": "0.1.x",
+    "multer": "0.1.x"
   },
   "devDependencies": {
     "gulp": "3.8.x",

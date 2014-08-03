@@ -3,7 +3,9 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectCreateController', ['$scope', '$location', 'Project', function($scope, $location, Project){
+    .controller('ProjectCreateController', ['$scope', '$location', 'Project', 'MediaManager', function($scope, $location, Project, MediaManager){
+
+        var filesArray = [];
 
         // $scope
         // ======
@@ -14,12 +16,17 @@ angular.module('myApp.controllers')
         $scope.data.vimeo = [{}];
         $scope.data.file = [{}];
 
+        $scope.onFileSelect = function(files){
+
+            MediaManager.onFileSelect(files, filesArray);
+        };
+
         $scope.submitForm = function(isFormValid){
 
             if(isFormValid){
-                var project = new Project($scope.input);
 
-                
+                var project = new Project($scope.input);
+                project.media = filesArray.concat($scope.data.vimeo);
 
                 project.$save(function(proj){
                     $location.path('/projects/'+proj._id+'/');
@@ -29,15 +36,6 @@ angular.module('myApp.controllers')
 
         $scope.addField = function(type){
 
-            var arrayType;
-
-            if(type === 'file'){
-                arrayType = $scope.data.file;
-            }
-            else{
-                arrayType = $scope.data.vimeo;
-            }
-
-            arrayType.unshift({});
+            MediaManager.addField(type, $scope.data.file, $scope.data.vimeo);
         };
     }]);

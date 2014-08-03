@@ -1,5 +1,3 @@
-// TODO: Check if bodyParser() is correct
-
 'use strict';
 
 var Config = require('./config'),
@@ -13,6 +11,7 @@ var Config = require('./config'),
     passport = require('passport'),
     morgan = require('morgan'),
     fs = require('fs'),
+    multer = require('multer'),
     DigestStrategy  = require('passport-http').DigestStrategy,
     app = express(),
     router = express.Router(),
@@ -171,6 +170,17 @@ router.route('/api/projects/:projectId')
         });
     });
 
+// Admin File Uploads
+// ==================
+
+router.route('/upload/')
+
+    .post(isLogged, multer({dest: '../uploads'}), function(req, res){
+        console.log(req.files);
+
+        res.send({originalname: req.files.file.originalname, name: req.files.file.name});
+    });
+
 // Admin Project
 // =============
 
@@ -186,7 +196,7 @@ router.route('/admin/')
 
 router.route('/join/')
 
-    .post(bodyParser, function(req, res){
+    .post(bodyParser(), function(req, res){
 
         var email = req.body.email,
             password = req.body.password;

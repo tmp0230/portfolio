@@ -6,3 +6,4 @@ npm-debug.log
 /public/jst/
 /public/dist/
 /public/app/.sass-cache/
+/uploads/
