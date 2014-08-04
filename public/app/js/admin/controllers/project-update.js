@@ -5,15 +5,18 @@ angular.module('myApp.controllers')
 
         var filesArray = [];
 
-        var updateProject = function(){
+        var arrayUnique = function(array){
+            var a = array.concat();
 
-            $scope.data.success = false;
+            for(var i=0, len=a.length; i<len; ++i){
+                for(var j=i+1, l=a.length; j<l; ++j){
+                    if(a[i] === a[j]){
+                        a.splice(j--, 1);
+                    }
+                }
+            }
 
-            //$scope.data.project.media = filesArray.concat($scope.data.vimeo);
-
-            $scope.data.project.$update(function(){
-                $scope.data.success = true;
-            });
+            return a;
         };
 
         // $scope
@@ -32,10 +35,20 @@ angular.module('myApp.controllers')
             filesArray = project.media;
         });
 
+        $scope.updateProject = function(){
+
+            $scope.data.success = false;
+            $scope.data.project.$update(function(){
+                $scope.data.success = true;
+            });
+        };
+
         $scope.submitForm = function(isFormValid){
 
             if(isFormValid){
-                updateProject();
+                $scope.data.project.media = arrayUnique($scope.data.project.media.concat(filesArray));
+                $scope.data.project.media = arrayUnique($scope.data.project.media.concat($scope.data.vimeo));
+                $scope.updateProject();
             }
         };
 
@@ -76,7 +89,11 @@ angular.module('myApp.controllers')
             var index = $scope.data.project.media.indexOf(media);
             $scope.data.project.media.splice(index, 1);
 
-            updateProject();
+            if($scope.data.project.media.length === 0){
+                $scope.data.isShowingInfo = true;
+            }
+
+            $scope.updateProject();
         };
 
         $scope.sortableOptions = {

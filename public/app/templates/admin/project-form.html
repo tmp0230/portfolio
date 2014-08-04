@@ -39,19 +39,22 @@
                         <div class="form-group">
                             <label for="inputTechnical" class="col-sm-2 control-label">Technical</label>
                             <div class="col-sm-10">
-                                <input type="text" name="technical" ng-model="input.technical" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)">
+                                <!-- <input type="text" name="technical" ng-model="input.technical" class="form-control" id="inputTechnical" placeholder="Technical workflow (coma separated)"> -->
+                                <select ui-select2 name="technical" ng-model="input.technical" id="inputTechnical" data-placeholder="Technical workflow (coma separated)">
+                                    <option></option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputTeam" class="col-sm-2 control-label">Team</label>
                             <div class="col-sm-10">
-                                <input type="text" name="team" ng-model="input.team" class="form-control" id="inputTeam" placeholder="Team member (coma separated)">
+                                <!-- <input type="text" name="team" ng-model="input.team" class="form-control" id="inputTeam" placeholder="Team member (coma separated)"> -->
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputCredit" class="col-sm-2 control-label">Credits</label>
                             <div class="col-sm-10">
-                                <input type="text" name="credit" ng-model="input.credit" class="form-control" id="inputCredit" placeholder="Credits (coma separated)">
+                                <!-- <input type="text" name="credit" ng-model="input.credit" class="form-control" id="inputCredit" placeholder="Credits (coma separated)"> -->
                             </div>
                         </div>
                         <div class="form-group">

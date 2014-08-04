@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp', ['ngRoute', 'ngResource', 'ui.sortable', 'angularFileUpload', 'myApp.controllers', 'myApp.directives', 'myApp.services'])
+angular.module('myApp', ['ngRoute', 'ngResource', 'ui.sortable', 'ui.select2', 'angularFileUpload', 'myApp.controllers', 'myApp.directives', 'myApp.services'])
     .config(['$routeProvider', function($routeProvider){
 
         var checkLoggedIn = function($q, $http, $location){

@@ -175,7 +175,7 @@ router.route('/api/projects/:projectId')
 
 router.route('/upload/')
 
-    .post(isLogged, multer({dest: '../uploads'}), function(req, res){
+    .post(isLogged, multer({dest: __dirname + '/../uploads'}), function(req, res){
         console.log(req.files);
 
         res.send({originalname: req.files.file.originalname, name: req.files.file.name});
