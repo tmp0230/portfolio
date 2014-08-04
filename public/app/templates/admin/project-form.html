@@ -79,7 +79,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-success" ng-show="form.$valid && !data.project">Save</button>
-                                <button type="submit" class="btn btn-success" ng-show="form.$valid && form.$dirty && data.project">Update</button>
+                                <button type="submit" class="btn btn-success" ng-show="form.$valid && data.project">Update</button>
                                 <button type="button" class="btn btn-danger" ng-show="data.project" ng-click="deleteProject()">Delete</button>
                             </div>
                         </div>
@@ -112,6 +112,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <button type="button" class="btn btn-success" ng-show="data.saveSort" ng-click="updateProject()">Update</button>
                 </div>
             </div>
         </div>

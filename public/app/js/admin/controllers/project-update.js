@@ -5,6 +5,17 @@ angular.module('myApp.controllers')
 
         var filesArray = [];
 
+        var updateProject = function(){
+
+            $scope.data.success = false;
+
+            //$scope.data.project.media = filesArray.concat($scope.data.vimeo);
+
+            $scope.data.project.$update(function(){
+                $scope.data.success = true;
+            });
+        };
+
         // $scope
         // ======
 
@@ -17,21 +28,21 @@ angular.module('myApp.controllers')
 
         $scope.data.project = Project.get({projectId: $routeParams.projectId}, function(project){
             $scope.input = project;
+
+            filesArray = project.media;
         });
 
         $scope.submitForm = function(isFormValid){
 
             if(isFormValid){
-                $scope.data.success = false;
-                $scope.data.project.$update(function(){
-                    $scope.data.success = true;
-                });
+                updateProject();
             }
         };
 
         $scope.deleteProject = function(){
 
             if(confirm('Are you sure you want to delete '+$scope.data.project.title+' ?')){
+
                 $scope.data.project.$delete(function(){
                     $location.path('/projects/');
                 });
@@ -56,6 +67,16 @@ angular.module('myApp.controllers')
             else if(type === 'media'){
                 $scope.data.isShowingInfo = false;
             }
+        };
+
+        $scope.deleteMedia = function(media){
+
+            // Remove it from client representation
+
+            var index = $scope.data.project.media.indexOf(media);
+            $scope.data.project.media.splice(index, 1);
+
+            updateProject();
         };
 
         $scope.sortableOptions = {

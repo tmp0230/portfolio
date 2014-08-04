@@ -13,6 +13,7 @@ angular.module('myApp.controllers')
         $scope.input = {};
         $scope.data = {};
         $scope.data.menuCreate = true;
+        $scope.data.isShowingInfo = true;
         $scope.data.vimeo = [{}];
         $scope.data.file = [{}];
 
