@@ -39,4 +39,9 @@ angular.module('myApp.controllers')
 
             MediaManager.addField(type, $scope.data.file, $scope.data.vimeo);
         };
+
+        $scope.select2Options = {
+            tags: ['test'],
+            tokenSeparators: [',']
+        };
     }]);

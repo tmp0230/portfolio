@@ -55,3 +55,17 @@ p{
 .tab-content > .tab-pane{
     display: block;
 }
+
+// Select2
+// =======
+
+.select2-container{
+    //width: 100%;
+    .select2-choices{
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input{
+        padding-left: 12px !important;
+    }
+}
