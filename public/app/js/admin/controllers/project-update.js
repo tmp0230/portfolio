@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectUpdateController', ['$scope', '$routeParams', '$location', 'Project', 'MediaManager', function($scope, $routeParams, $location, Project, MediaManager){
+    .controller('ProjectUpdateController', ['$scope', '$routeParams', '$location', '$http', 'Project', 'MediaManager', function($scope, $routeParams, $location, $http, Project, MediaManager){
 
-        var filesArray = [];
+        var filesArray = [],
+            creditsTag = [];
 
         var arrayUnique = function(array){
             var a = array.concat();
@@ -109,4 +110,38 @@ angular.module('myApp.controllers')
                 });
             }
         };
+
+        $http.get('/api/credits').success(function(data){
+            creditsTag = data;
+        });
+
+        $scope.select2CreditsOptions = {
+            tags: function(){
+                return creditsTag;
+            },
+            multiple: true,
+            'simple_tags': true,
+            tokenSeparators: [',']
+        };
+
+
+        // $http.get('/api/teams').success(function(data){
+
+            $scope.select2TeamOptions = {
+                'tags': [],
+                'multiple': true,
+                'simple_tags': true,
+                'tokenSeparators': [',']
+            };
+        // });
+
+        // $http.get('/api/technicals').success(function(data){
+
+            $scope.select2TechnicalOptions = {
+                'tags': [],
+                'multiple': true,
+                'simple_tags': true,
+                'tokenSeparators': [',']
+            };
+        // });
     }]);

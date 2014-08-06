@@ -60,7 +60,7 @@ p{
 // =======
 
 .select2-container{
-    //width: 100%;
+    width: 100%;
     .select2-choices{
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -68,4 +68,12 @@ p{
     input{
         padding-left: 12px !important;
     }
+}
+
+.select2-search-choice{
+    line-height: 18px !important;
+}
+
+.select2-search-choice-close{
+    top: 5px !important;
 }

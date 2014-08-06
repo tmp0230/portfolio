@@ -170,6 +170,48 @@ router.route('/api/projects/:projectId')
         });
     });
 
+router.route('/api/teams')
+
+    .get(function(req, res){
+
+        Project.find().distinct('team', function(err, teams){
+
+            if(err){
+                return res.send(err.code, err.message);
+            }
+
+            res.json(teams);
+        });
+    });
+
+router.route('/api/credits')
+
+    .get(function(req, res){
+
+        Project.find().distinct('credits', function(err, credits){
+
+            if(err){
+                return res.send(err.code, err.message);
+            }
+
+            res.json(credits);
+        });
+    });
+
+router.route('/api/technicals')
+
+    .get(function(req, res){
+
+        Project.find().distinct('technical', function(err, technical){
+
+            if(err){
+                return res.send(err.code, err.message);
+            }
+
+            res.json(technical);
+        });
+    });
+
 // Admin File Uploads
 // ==================
 

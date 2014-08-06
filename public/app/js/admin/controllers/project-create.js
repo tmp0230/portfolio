@@ -25,7 +25,7 @@ angular.module('myApp.controllers')
         $scope.submitForm = function(isFormValid){
 
             if(isFormValid){
-
+                console.log($scope.input.credit);
                 var project = new Project($scope.input);
                 project.media = filesArray.concat($scope.data.vimeo);
 
@@ -41,7 +41,9 @@ angular.module('myApp.controllers')
         };
 
         $scope.select2Options = {
-            tags: ['test'],
-            tokenSeparators: [',']
+            'tags': ['test'],
+            'multiple': true,
+            'simple_tags': true,
+            'tokenSeparators': [',']
         };
     }]);
