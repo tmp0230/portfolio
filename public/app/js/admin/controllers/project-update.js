@@ -4,7 +4,9 @@ angular.module('myApp.controllers')
     .controller('ProjectUpdateController', ['$scope', '$routeParams', '$location', '$http', 'Project', 'MediaManager', function($scope, $routeParams, $location, $http, Project, MediaManager){
 
         var filesArray = [],
-            creditsTag = [];
+            creditTags = [],
+            teamTags = [],
+            technicalTags = [];
 
         var arrayUnique = function(array){
             var a = array.concat();
@@ -19,6 +21,7 @@ angular.module('myApp.controllers')
 
             return a;
         };
+
 
         // $scope
         // ======
@@ -111,37 +114,39 @@ angular.module('myApp.controllers')
             }
         };
 
+
+        // Select2 Configuration
+        // =====================
+
         $http.get('/api/credits').success(function(data){
-            creditsTag = data;
+            creditTags = data;
         });
 
-        $scope.select2CreditsOptions = {
-            tags: function(){
-                return creditsTag;
-            },
-            multiple: true,
-            'simple_tags': true,
-            tokenSeparators: [',']
+        $http.get('/api/teams').success(function(data){
+            teamTags = data;
+        });
+
+        $http.get('/api/technicals').success(function(data){
+            technicalTags = data;
+        });
+
+        $scope.select2Options = function(type){
+
+            return {
+                tags: function(){
+                    if(type === 'credits'){
+                        return creditTags;
+                    }
+                    else if(type === 'team'){
+                        return teamTags;
+                    }
+                    else if(type === 'technical'){
+                        return technicalTags;
+                    }
+                },
+                multiple: true,
+                'simple_tags': true,
+                tokenSeparators: [',']
+            };
         };
-
-
-        // $http.get('/api/teams').success(function(data){
-
-            $scope.select2TeamOptions = {
-                'tags': [],
-                'multiple': true,
-                'simple_tags': true,
-                'tokenSeparators': [',']
-            };
-        // });
-
-        // $http.get('/api/technicals').success(function(data){
-
-            $scope.select2TechnicalOptions = {
-                'tags': [],
-                'multiple': true,
-                'simple_tags': true,
-                'tokenSeparators': [',']
-            };
-        // });
     }]);
