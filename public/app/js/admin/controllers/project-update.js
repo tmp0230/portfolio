@@ -52,6 +52,14 @@ angular.module('myApp.controllers')
             if(isFormValid){
                 $scope.data.project.media = arrayUnique($scope.data.project.media.concat(filesArray));
                 $scope.data.project.media = arrayUnique($scope.data.project.media.concat($scope.data.vimeo));
+
+                for(var i = 0, len = $scope.data.project.media.length; i<len; i++){
+
+                    if(Object.keys($scope.data.project.media[i]).length === 1){
+                        $scope.data.project.media.splice(i, 1);
+                    }
+                }
+
                 $scope.updateProject();
             }
         };

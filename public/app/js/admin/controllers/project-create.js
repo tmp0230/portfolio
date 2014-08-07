@@ -3,9 +3,12 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectCreateController', ['$scope', '$location', 'Project', 'MediaManager', function($scope, $location, Project, MediaManager){
+    .controller('ProjectCreateController', ['$scope', '$location', '$http', 'Project', 'MediaManager', function($scope, $location, $http, Project, MediaManager){
 
-        var filesArray = [];
+        var filesArray = [],
+            creditTags = [],
+            teamTags = [],
+            technicalTags = [];
 
         // $scope
         // ======
@@ -25,9 +28,16 @@ angular.module('myApp.controllers')
         $scope.submitForm = function(isFormValid){
 
             if(isFormValid){
-                console.log($scope.input.credit);
+
                 var project = new Project($scope.input);
                 project.media = filesArray.concat($scope.data.vimeo);
+
+                for(var i = 0, len = project.media.length; i<len; i++){
+
+                    if(Object.keys(project.media[i]).length === 1){
+                        project.media.splice(i, 1);
+                    }
+                }
 
                 project.$save(function(proj){
                     $location.path('/projects/'+proj._id+'/');
@@ -40,10 +50,39 @@ angular.module('myApp.controllers')
             MediaManager.addField(type, $scope.data.file, $scope.data.vimeo);
         };
 
-        $scope.select2Options = {
-            'tags': ['test'],
-            'multiple': true,
-            'simple_tags': true,
-            'tokenSeparators': [',']
+
+        // Select2 Configuration
+        // =====================
+
+        $http.get('/api/credits').success(function(data){
+            creditTags = data;
+        });
+
+        $http.get('/api/teams').success(function(data){
+            teamTags = data;
+        });
+
+        $http.get('/api/technicals').success(function(data){
+            technicalTags = data;
+        });
+
+        $scope.select2Options = function(type){
+
+            return {
+                tags: function(){
+                    if(type === 'credits'){
+                        return creditTags;
+                    }
+                    else if(type === 'team'){
+                        return teamTags;
+                    }
+                    else if(type === 'technical'){
+                        return technicalTags;
+                    }
+                },
+                multiple: true,
+                'simple_tags': true,
+                tokenSeparators: [',']
+            };
         };
     }]);
