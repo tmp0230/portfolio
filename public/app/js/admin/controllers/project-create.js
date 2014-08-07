@@ -3,12 +3,9 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectCreateController', ['$scope', '$location', '$http', 'Project', 'MediaManager', function($scope, $location, $http, Project, MediaManager){
+    .controller('ProjectCreateController', ['$scope', '$location', '$http', 'Project', 'MediaManager', 'TagManager', function($scope, $location, $http, Project, MediaManager, TagManager){
 
-        var filesArray = [],
-            creditTags = [],
-            teamTags = [],
-            technicalTags = [];
+        var filesArray = [];
 
         // $scope
         // ======
@@ -54,35 +51,7 @@ angular.module('myApp.controllers')
         // Select2 Configuration
         // =====================
 
-        $http.get('/api/credits').success(function(data){
-            creditTags = data;
-        });
-
-        $http.get('/api/teams').success(function(data){
-            teamTags = data;
-        });
-
-        $http.get('/api/technicals').success(function(data){
-            technicalTags = data;
-        });
-
         $scope.select2Options = function(type){
-
-            return {
-                tags: function(){
-                    if(type === 'credits'){
-                        return creditTags;
-                    }
-                    else if(type === 'team'){
-                        return teamTags;
-                    }
-                    else if(type === 'technical'){
-                        return technicalTags;
-                    }
-                },
-                multiple: true,
-                'simple_tags': true,
-                tokenSeparators: [',']
-            };
+            return TagManager.init(type);
         };
     }]);
