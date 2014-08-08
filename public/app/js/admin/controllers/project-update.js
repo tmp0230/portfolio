@@ -1,12 +1,9 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('ProjectUpdateController', ['$scope', '$routeParams', '$location', '$http', 'Project', 'MediaManager', function($scope, $routeParams, $location, $http, Project, MediaManager){
+    .controller('ProjectUpdateController', ['$scope', '$routeParams', '$location', '$http', 'Project', 'MediaManager', 'TagManager', function($scope, $routeParams, $location, $http, Project, MediaManager, TagManager){
 
-        var filesArray = [],
-            creditTags = [],
-            teamTags = [],
-            technicalTags = [];
+        var filesArray = [];
 
         var arrayUnique = function(array){
             var a = array.concat();

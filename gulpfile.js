@@ -34,6 +34,7 @@ var gulp = require('gulp'),
         ],
         copyFiles: [
             'public/app/*',
+            '!public/app/scss',
             'public/app/img/**',
             'public/app/js/admin/**/*.js',
             'public/app/templates/admin/**/*.html',
