@@ -8,6 +8,7 @@ var Config = require('./config'),
     session = require('express-session'),
     mongoose = require('mongoose'),
     nunjucks = require('nunjucks'),
+    nunjucksGlobals = require('nunjucks/src/globals'),
     passport = require('passport'),
     morgan = require('morgan'),
     fs = require('fs'),
@@ -88,6 +89,8 @@ app.use(function(req, res, next){
     next();
 });
 
+nunjucksGlobals.env = process.env.NODE_ENV;
+
 nunjucks.configure(__dirname + '/../templates', {
     express: app
 });
@@ -95,9 +98,14 @@ nunjucks.configure(__dirname + '/../templates', {
 // Router
 // ======
 
-//router.route('/').get(listProjects);
+router.route('/')
+
+    .get(function(req, res){
+
+        res.render('extends/project-list.html');
+    });
+
 //router.route('/projects/:project_slug/').get(showProject);
-// if(process.env.NODE_ENV === 'prod')
 
 // API
 // ===

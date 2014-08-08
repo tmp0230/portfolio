@@ -6,13 +6,18 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+
+        <link href="http://fonts.googleapis.com/css?family=PT+Sans:700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet" type="text/css">
     </head>
     <body>
         {% block content %}{% endblock %}
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-        {% if environment == 'dev' %}
+        {% if env == 'dev' %}
             <script src="/static/js/libs/libs.js"></script>
             <script src="/static/js/app.js"></script>
         {% else %}
