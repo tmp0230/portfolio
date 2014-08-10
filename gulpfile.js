@@ -34,7 +34,7 @@ var gulp = require('gulp'),
         ],
         copyFiles: [
             'public/app/*',
-            '!public/app/scss',
+            '!public/app/scss', // Avoid empty css folder
             'public/app/img/**',
             'public/app/js/admin/**/*.js',
             'public/app/templates/admin/**/*.html',
@@ -96,7 +96,7 @@ gulp.task('css', function(){
 
 gulp.task('cleanCss', ['css'], function(){
     return gulp.src('public/app/css', {read: false})
-        .pipe(clean());
+        //.pipe(clean());
 });
 
 

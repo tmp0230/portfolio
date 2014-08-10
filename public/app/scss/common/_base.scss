@@ -7,25 +7,90 @@ html{
 }
 
 body{
+    font-family: $ubuntuCondensed;
     font-size: $paragrah;
+    letter-spacing: .1em;
+}
+
+a{
+    text-decoration: none;
 }
 
 h1{
     font-size: $title;
+    font-weight: normal;
+    text-transform: uppercase;
 }
 
 h2{
     font-size: $name;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: $blue;
+    margin: 0;
+}
+
+h3{
+    font-family: $ubuntuCondensed;
+    font-weight: normal;
+    font-size: $paragrah;
+    text-transform: uppercase;
+    margin-bottom: 34px;
 }
 
 nav{
     font-family: $ptSans;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: $blue;
+    z-index: 3;
+    li{
+        width: 60px;
+        border: 1px solid $blue;
+        line-height: 20px;
+        position: relative;
+        @include transition(background-color 400ms);
+        &:hover{
+            background-color: $blue;
+        }
+        a{
+            display: block;
+            color: $blue;
+        }
+    }
 }
 
 p{
     font-family: $georgia;
+    letter-spacing: normal;
 }
 
 img{
+    width: 100%;
+    height: auto;
     display: block;
+}
+
+aside{
+    background-color: $white;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 30px 0 150px;
+    p{
+        font-family: $ubuntuCondensed;
+        letter-spacing: .1em;
+        margin: 0;
+    }
+    ul{
+        margin: 0 0 26px;
+    }
+}
+
+ul{
+    padding-left: 0;
+    list-style-type: none;
+    li{
+        display: inline-block;
+    }
 }
