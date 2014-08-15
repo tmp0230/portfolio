@@ -1,5 +1,4 @@
 .inside-border{
-    @include perspective(1000px);
     &:before{
         content: "";
         display: block;
@@ -10,22 +9,22 @@
         left: 0;
         border: 0 solid $white;
         z-index: 1;
-        @include single-transition(border-width, 400ms);
+        transition: border-width 400ms;
     }
     &:hover{
         &:before{
             border-width: 8px;
         }
         .gray-filter{
-            @include filter(grayscale(30%));
+            filter: #{"grayscale(30%)"};
         }
         h1{
-            @include opacity(0);
-            @include translateY(25%);
+            opacity: 0;
+            transform: translateY(25%);
         }
         .overlay{
-            @include opacity(.8);
-            @include transform(translateY(-50%));
+            opacity: .8;
+            transform: translateY(-50%);
         }
     }
 }
@@ -37,7 +36,7 @@
     top: 88.7%;
     left: 9%;
     z-index: 2;
-    @include transition(opacity 400ms, transform 400ms);
+    transition: opacity 400ms, transform 400ms;
 }
 
 .overlay{
@@ -51,8 +50,8 @@
     color: $blue;
     text-transform: uppercase;
     mix-blend-mode: multiply;
-    @include opacity(0);
-    @include transform(translateY(-50%) scale(.98));
+    opacity: 0;
+    transform: translateY(-50%) scale(.98);
 }
 
 .grid-15.inside-border h1{
@@ -62,7 +61,7 @@
 }
 
 .gray-filter{
-     @include filter(grayscale(75%));
+     filter: #{"grayscale(75%)"};
 }
 
 .home-bottom-margin{

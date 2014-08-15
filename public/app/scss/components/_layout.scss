@@ -11,8 +11,10 @@ $numColumns: 15;
     padding-top: 1%;
 }
 
-.cf{
-    @include pie-clearfix;
+.cf:after{
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .grid{

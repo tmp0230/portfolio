@@ -1,61 +1,79 @@
 // TODO: When gulp 4 will be out, remove gulp.start() in clean (something will allow to do so) and check error comportments (lint)
-// TODO: Add beep to lint task
 // TODO: Add uncss task
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     path = require('path'),
 
-    clean = require('gulp-clean'),
+    coffee = require('gulp-coffee'),
+    rimraf = require('gulp-rimraf'),
     nunjucks = require('gulp-nunjucks'),
-    uncss = require('gulp-uncss'),
+    //uncss = require('gulp-uncss'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     minifycss = require('gulp-minify-css'),
     livereload = require('gulp-livereload'),
-    compass = require('gulp-compass'),
     jshint = require('gulp-jshint'),
+    sass = require('gulp-sass'),
+    prefix = require('gulp-autoprefixer'),
 
 
 // Variables
 // =========
 
-    paths = {
-        scripts: [
-            'public/app/js/app/**/*.js',
-            '!public/app/js/libs{,/**}',
-            '!public/app/js/admin{,/**}'
-        ], // All js but not libs or admin
-        vendors: [
-            'public/app/js/libs/underscore.js',
-            'public/app/js/libs/backbone.js',
+    files = {
+        coffee: [
+            'public/app/coffee/**/*.coffee'
+        ],
+        libs: [
             'public/app/js/libs/**/*.js'
         ],
-        copyFiles: [
+        css: [
+            'public/app/scss/**/*.scss'
+        ],
+        templates: [
+            'templates/partials/**/*.html'
+        ],
+        lint: [
+            'public/app/js/admin/**/*.js',
+            '!public/app/js/admin/libs/**'
+        ],
+        clean: [
+            '**/.DS_Store',
+            'public/dist',
+            'npm-debug.log'
+        ],
+        copy: [
             'public/app/*',
-            '!public/app/scss', // Avoid empty css folder
             'public/app/img/**',
             'public/app/fonts/**',
             'public/app/js/admin/**/*.js',
             'public/app/templates/admin/**/*.html',
-        ] // Copy root files, img folder and admin js (that are not uglified)
+            '!public/app/coffee{,/**}',
+            '!public/app/scss{,/**}'
+        ]
     };
 
 
-// Scripts
-// =======
+// Lint admin scripts
+// ==================
 
 gulp.task('lint', function(){
-    return gulp.src(['public/app/js/app/**/*.js', 'public/app/js/admin/**/*.js', '!public/app/js/admin/libs/**'])
+    return gulp.src(files.lint)
         .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'))
-        // .pipe(jshint.reporter('fail')
-        //     .on('error', gutil.beep));
-})
+        .pipe(jshint.reporter('jshint-stylish'));
+});
 
-gulp.task('scripts', ['lint'], function(){
-    return gulp.src(paths.scripts)
+
+// Client scripts
+// ==============
+
+gulp.task('coffee', function(){
+    return gulp.src(files.coffee)
+        .pipe(coffee({bare: true})
+            .on('error', gutil.log)
+            .on('error', gutil.beep))
         .pipe(concat('app.js'))
         .pipe(gulp.dest('public/dist/js'))
         .pipe(livereload())
@@ -65,7 +83,7 @@ gulp.task('scripts', ['lint'], function(){
 });
 
 gulp.task('libs', function(){
-    return gulp.src(paths.vendors)
+    return gulp.src(files.libs)
         .pipe(concat('libs.js'))
         .pipe(gulp.dest('public/dist/js/libs'))
         .pipe(livereload())
@@ -79,14 +97,11 @@ gulp.task('libs', function(){
 // ======
 
 gulp.task('css', function(){
-    return gulp.src('public/app/scss/**/*.scss')
-        .pipe(compass({
-            project: path.join(__dirname, 'public/app'),
-            sass: 'scss',
-            image: 'img',
-            font: 'fonts'
-        })
-            .on('error', gutil.beep))
+    return gulp.src(files.css)
+        .pipe(sass({
+            errLogToConsole: true
+        }))
+        .pipe(prefix())
         .pipe(gulp.dest('public/dist/css'))
         .pipe(livereload())
         .pipe(rename({suffix: '.min'}))
@@ -94,19 +109,12 @@ gulp.task('css', function(){
         .pipe(gulp.dest('public/dist/css'));
 });
 
-// Clean compass css output because we already copied it in dist folder
-
-gulp.task('cleanCss', ['css'], function(){
-    return gulp.src('public/app/css', {read: false})
-        //.pipe(clean());
-});
-
 
 // Copy
 // ====
 
 gulp.task('copy', function(){
-    return gulp.src(paths.copyFiles, {base: 'public/app'})
+    return gulp.src(files.copy, {base: 'public/app'})
         .pipe(gulp.dest('public/dist'))
         .pipe(livereload());
 });
@@ -116,23 +124,10 @@ gulp.task('copy', function(){
 // =========
 
 gulp.task('templates', function(){
-    return gulp.src('templates/partials/**/*.html')
+    return gulp.src(files.templates)
         .pipe(nunjucks())
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());
-});
-
-
-// Watch
-// =====
-
-gulp.task('watch', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], function(){
-    gulp.watch('templates/**/*.html', ['templates']);
-    gulp.watch('public/app/scss/**/*.scss', ['cleanCss']);
-    gulp.watch('public/app/js/admin/**/*.js', ['lint']);
-    gulp.watch(paths.scripts, ['scripts']);
-    gulp.watch(paths.vendors, ['libs']);
-    gulp.watch(paths.copyFiles, ['copy']);
 });
 
 
@@ -140,8 +135,21 @@ gulp.task('watch', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], functio
 // =====
 
 gulp.task('clean', function(){
-    return gulp.src(['**/.DS_Store', 'public/dist', 'npm-debug.log', 'public/app/.sass-cache'], {read: false})
-        .pipe(clean());
+    return gulp.src(files.clean, {read: false})
+        .pipe(rimraf());
+});
+
+
+// Watch
+// =====
+
+gulp.task('watch', ['templates', 'css', 'coffee', 'libs', 'copy', 'lint'], function(){
+    gulp.watch(files.templates, ['templates']);
+    gulp.watch(files.css, ['css']);
+    gulp.watch(files.lint, ['lint']);
+    gulp.watch(files.coffee, ['coffee']);
+    gulp.watch(files.libs, ['libs']);
+    gulp.watch(files.copy, ['copy']);
 });
 
 
@@ -154,6 +162,6 @@ gulp.task('build', ['clean'], function(){
     gulp.start('postbuild');
 });
 
-gulp.task('postbuild', ['templates', 'cleanCss', 'scripts', 'libs', 'copy'], function(){
+gulp.task('postbuild', ['templates', 'css', 'coffee', 'libs', 'copy'], function(){
     process.exit();
 });

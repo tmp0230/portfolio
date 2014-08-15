@@ -1,5 +1,5 @@
 *, input[type="search"]{
-    @include box-sizing(border-box);
+    box-sizing: border-box;
 }
 
 html{
@@ -56,14 +56,14 @@ nav{
         &:hover{
             border-color: $white;
             a{
-                @include translateY(-20px);
+                transform: translateY(-20px);
             }
         }
         a{
             display: block;
             color: $blue;
             position: relative;
-            @include single-transition(transform, 400ms);
+            transition: transform 400ms;
             &:after{
                 content: attr(title);
                 width: 100%;

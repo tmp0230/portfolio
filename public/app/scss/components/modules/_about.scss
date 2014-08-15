@@ -3,7 +3,7 @@
     position: fixed;
     top: 50%;
     text-align: center;
-    @include translateY(-50%);
+    transform: translateY(-50%);
     &:before{
         content: "";
         width: 100%;
@@ -54,7 +54,7 @@
         background-color: $black;
         display: inline-block;
         position: relative;
-        @include rotate(45deg);
+        transform: rotate(45deg);
         &:after{
             content: "";
             display: inline-block;

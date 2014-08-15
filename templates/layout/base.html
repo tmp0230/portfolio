@@ -13,21 +13,23 @@
         <link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="container" id="containerRegion">
+        <div class="container">
             {% include "layout/menu.html" %}
 
-            {% block content %}{% endblock %}
+            <div id="mainRegion">
+                {% block content %}{% endblock %}
+            </div>
 
             {% include "layout/about.html" %}
         </div>
 
-        <div class="aside" id="asideRegion">
+        <div id="asideRegion" class="aside">
             {% block aside %}{% endblock %}
         </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-        {% if env == 'prod' %}
+        {% if env == "prod" %}
             <script src="/static/js/libs/libs.min.js"></script>
             <script src="/static/js/app.min.js"></script>
         {% else %}
@@ -36,7 +38,7 @@
         {% endif %}
 
         <script type="text/javascript">
-            PortfolioManager.start();
+            var app = new AppManager();
         </script>
     </body>
 </html>

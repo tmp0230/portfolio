@@ -6,6 +6,7 @@ $grey: #c0d4db;
 $blue: #002fa7;
 $black: #000000;
 
+
 // Breakpoints
 // ===========
 
@@ -14,11 +15,6 @@ $black: #000000;
 // $tabletLandscape: 1024px;
 // $desktop: 1174px;
 
-// Sprites
-// =======
-
-//$spriteSpacing: 2px;
-//$spriteIcons: sprite-map("sprite_icons/*.png", $spacing: $spriteSpacing);
 
 // Font sizes
 // ==========
@@ -36,10 +32,19 @@ $letter: 262px;
 $ubuntuCondensed: "Ubuntu Condensed", sans-serif;
 $ptSans: "PT Sans", sans-serif;
 $georgia: Georgia, serif;
-$mostraNuova: "Mostra Nuova", sans-serif;
+$mostraNuova: "mostra_nuovabold", sans-serif;
 
 
 // Fontface
 // ========
 
-@include font-face("Mostra Nuova", font-files("mostra_nuova_bold.woff", "mostra_nuova_bold.ttf", "mostra_nuova_bold.svg"), "mostra_nuova_bold.eot");
+@font-face {
+    font-family: "mostra_nuovabold";
+    src: url("mostra_nuova_bold-webfont.eot");
+    src: url("mostra_nuova_bold-webfont.eot?#iefix") format("embedded-opentype"),
+         url("mostra_nuova_bold-webfont.woff") format("woff"),
+         url("mostra_nuova_bold-webfont.ttf") format("truetype"),
+         url("mostra_nuova_bold-webfont.svg#mostra_nuovabold") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
