@@ -1,0 +1,103 @@
+.inside-border{
+    @include perspective(1000px);
+    &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: 0 solid $white;
+        z-index: 1;
+        @include single-transition(border-width, 400ms);
+    }
+    &:hover{
+        &:before{
+            border-width: 8px;
+        }
+        .gray-filter{
+            @include filter(grayscale(30%));
+        }
+        h1{
+            @include opacity(0);
+            @include translateY(25%);
+        }
+        .overlay{
+            @include opacity(.8);
+            @include transform(translateY(-50%));
+        }
+    }
+}
+
+.inside-border h1, .overlay{
+    width: 50%;
+    position: absolute;
+    margin: 0;
+    top: 88.7%;
+    left: 9%;
+    z-index: 2;
+    @include transition(opacity 400ms, transform 400ms);
+}
+
+.overlay{
+    width: 100%;
+    top: 50%;
+    left: 0;
+    text-align: center;
+    font-size: $over;
+    font-family: "Mostra Nuova";
+    line-height: $over + 16;
+    color: $blue;
+    text-transform: uppercase;
+    mix-blend-mode: multiply;
+    @include opacity(0);
+    @include transform(translateY(-50%) scale(.98));
+}
+
+.grid-15.inside-border h1{
+    width: 25% !important;
+    top: 85%;
+    left: 4.5%;
+}
+
+.gray-filter{
+     @include filter(grayscale(75%));
+}
+
+.home-bottom-margin{
+    margin-bottom: 8.6%;
+}
+
+nav{
+    position: fixed !important;
+    margin-top: 58px !important;
+}
+
+.letter{
+    position: absolute;
+    top: 160px;
+    font-size: $letter;
+    font-family: $ptSans;
+    color: $blue;
+    font-weight: bold;
+    pointer-events: none;
+    display: none;
+}
+
+
+// JS added
+// ========
+
+.is-hidden{
+    visibility: hidden;
+    display: none;
+}
+
+.is-floated-right{
+    float: right;
+}
+
+.is-floated-left{
+    float: left;
+}

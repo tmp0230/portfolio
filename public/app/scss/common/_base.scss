@@ -20,6 +20,8 @@ h1{
     font-size: $title;
     font-weight: normal;
     text-transform: uppercase;
+    color: $white;
+    letter-spacing: .11em;
 }
 
 h2{
@@ -50,13 +52,26 @@ nav{
         border: 1px solid $blue;
         line-height: 20px;
         position: relative;
-        @include transition(background-color 400ms);
+        overflow: hidden;
         &:hover{
-            background-color: $blue;
+            border-color: $white;
+            a{
+                @include translateY(-20px);
+            }
         }
         a{
             display: block;
             color: $blue;
+            position: relative;
+            @include single-transition(transform, 400ms);
+            &:after{
+                content: attr(title);
+                width: 100%;
+                display: block;
+                position: absolute;
+                top: 20px;
+                color: $white;
+            }
         }
     }
 }
@@ -76,14 +91,22 @@ aside{
     background-color: $white;
     text-transform: uppercase;
     text-align: center;
-    padding: 30px 0 150px;
+    padding: 30px 0 100px;
     p{
         font-family: $ubuntuCondensed;
         letter-spacing: .1em;
         margin: 0;
+        line-height: 22px;
     }
     ul{
         margin: 0 0 26px;
+        li:before{
+            content: "/";
+            margin: 0 6px;
+        }
+        li:first-child:before{
+            content: normal;
+        }
     }
 }
 

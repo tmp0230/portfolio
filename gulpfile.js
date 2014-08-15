@@ -36,6 +36,7 @@ var gulp = require('gulp'),
             'public/app/*',
             '!public/app/scss', // Avoid empty css folder
             'public/app/img/**',
+            'public/app/fonts/**',
             'public/app/js/admin/**/*.js',
             'public/app/templates/admin/**/*.html',
         ] // Copy root files, img folder and admin js (that are not uglified)
@@ -82,7 +83,8 @@ gulp.task('css', function(){
         .pipe(compass({
             project: path.join(__dirname, 'public/app'),
             sass: 'scss',
-            image: 'img'
+            image: 'img',
+            font: 'fonts'
         })
             .on('error', gutil.beep))
         .pipe(gulp.dest('public/dist/css'))

@@ -3,18 +3,18 @@
 angular.module('myApp.controllers')
     .controller('JoinController', ['$scope', function($scope){
 
-        var FORM_URL = '/join/',
-            REDIRECT_TO = '/projects/';
-
-        // $scope
-        // ======
-
-        $scope.input = {};
-
-        $scope.submitForm = function(isFormValid){
-
-            if(isFormValid){
-                //$scope.input.name $scope.input.email $scope.input.password
-            }
-        };
+        // var FORM_URL = '/join/',
+        //     REDIRECT_TO = '/projects/';
+        //
+        // // $scope
+        // // ======
+        //
+        // $scope.input = {};
+        //
+        // $scope.submitForm = function(isFormValid){
+        //
+        //     if(isFormValid){
+        //
+        //     }
+        // };
     }]);

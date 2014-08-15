@@ -102,10 +102,15 @@ router.route('/')
 
     .get(function(req, res){
 
-        res.render('extends/project-list.html');
+        res.render('extends/project-list.html', {url: '/'});
     });
 
-//router.route('/projects/:project_slug/').get(showProject);
+router.route('/projects/:project_slug/')
+
+    .get(function(req, res){
+
+        res.render('extends/project-show.html');
+    });
 
 // API
 // ===

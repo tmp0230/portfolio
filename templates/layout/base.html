@@ -13,16 +13,26 @@
         <link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet" type="text/css">
     </head>
     <body>
-        {% block content %}{% endblock %}
+        <div class="container" id="container">
+            {% include "layout/menu.html" %}
+
+            {% block content %}{% endblock %}
+
+            {% include "layout/about.html" %}
+        </div>
+
+        <div class="aside" id="aside">
+            {% block aside %}{% endblock %}
+        </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-        {% if env == 'dev' %}
-            <script src="/static/js/libs/libs.js"></script>
-            <script src="/static/js/app.js"></script>
-        {% else %}
+        {% if env == 'prod' %}
             <script src="/static/js/libs/libs.min.js"></script>
             <script src="/static/js/app.min.js"></script>
+        {% else %}
+            <script src="/static/js/libs/libs.js"></script>
+            <script src="/static/js/app.js"></script>
         {% endif %}
     </body>
 </html>

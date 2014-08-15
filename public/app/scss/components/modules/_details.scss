@@ -1,0 +1,24 @@
+.top-fixed{
+    position: fixed;
+    top: 70px;
+    z-index: 1;
+    a, p{
+        color: $blue;
+    }
+    p{
+        line-height: 16px;
+    }
+    h1:first-child{
+        margin-bottom: 90px;
+    }
+}
+
+.first-img{
+    margin-top: 110px;
+    img{
+        margin-top: 2px;
+        &:first-child{
+            margin-top: 0;
+        }
+    }
+}

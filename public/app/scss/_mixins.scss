@@ -6,7 +6,7 @@
 //         @media (max-width: $smartphone){ @content; }
 //     }
 //     @else if $media == tablet {
-//         @media (min-width: $tabletPortrait) and (max-width: $tabletLandscape) { @content; }
+//         @media (min-width: $tabletPortrait) and (max-width: $tabletLandscape){ @content; }
 //     }
 //     @else if $media == smallScreen {
 //         @media (max-width: $desktop){ @content; }
