@@ -23,7 +23,7 @@ var gulp = require('gulp'),
 
     paths = {
         scripts: [
-            'public/app/js/**/*.js',
+            'public/app/js/app/**/*.js',
             '!public/app/js/libs{,/**}',
             '!public/app/js/admin{,/**}'
         ], // All js but not libs or admin
@@ -47,7 +47,7 @@ var gulp = require('gulp'),
 // =======
 
 gulp.task('lint', function(){
-    return gulp.src([paths.scripts.toString(), 'public/app/js/admin/**/*.js', '!public/app/js/admin/libs/**'])
+    return gulp.src(['public/app/js/app/**/*.js', 'public/app/js/admin/**/*.js', '!public/app/js/admin/libs/**'])
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         // .pipe(jshint.reporter('fail')

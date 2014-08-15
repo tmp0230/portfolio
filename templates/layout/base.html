@@ -13,7 +13,7 @@
         <link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="container" id="container">
+        <div class="container" id="containerRegion">
             {% include "layout/menu.html" %}
 
             {% block content %}{% endblock %}
@@ -21,7 +21,7 @@
             {% include "layout/about.html" %}
         </div>
 
-        <div class="aside" id="aside">
+        <div class="aside" id="asideRegion">
             {% block aside %}{% endblock %}
         </div>
 
@@ -34,5 +34,9 @@
             <script src="/static/js/libs/libs.js"></script>
             <script src="/static/js/app.js"></script>
         {% endif %}
+
+        <script type="text/javascript">
+            PortfolioManager.start();
+        </script>
     </body>
 </html>

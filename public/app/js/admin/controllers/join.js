@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.controllers')
-    .controller('JoinController', ['$scope', function($scope){
+    .controller('JoinController', ['$scope', function(){
 
         // var FORM_URL = '/join/',
         //     REDIRECT_TO = '/projects/';

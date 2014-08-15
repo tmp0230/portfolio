@@ -1,5 +1,5 @@
 {
-    "predef": ["angular"],
+    "predef": ["angular", "Backbone", "Marionette", "PortfolioManager"],
 
     "bitwise": true,
     "camelcase": true,
