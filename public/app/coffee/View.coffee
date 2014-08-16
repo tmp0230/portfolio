@@ -1,7 +1,4 @@
 class View
-    url: null
-
-    constructor: (@url)->
 
     open:->
         @el = $('#'+@el)

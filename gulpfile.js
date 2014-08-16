@@ -24,6 +24,7 @@ var gulp = require('gulp'),
 
     files = {
         coffee: [
+            'public/app/coffee/Manager.coffee',
             'public/app/coffee/**/*.coffee'
         ],
         libs: [

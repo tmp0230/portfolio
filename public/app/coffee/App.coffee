@@ -3,7 +3,9 @@ class App extends Manager
     constructor:->
         super
 
-        @region = new Region('#mainRegion')
+        @region =
+            mainRegion: new Region('#mainRegion')
+            asideRegion: new Region('#asideRegion')
 
     start:->
         new ProjectRouter()

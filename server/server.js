@@ -129,7 +129,7 @@ router.route('/api/projects')
         });
     })
 
-    .post(isLogged, bodyParser(), function(req, res){
+    .post(isLogged, bodyParser.urlencoded({extended: true}), bodyParser.json(), function(req, res){
 
         var project = new Project(req.body);
 
@@ -157,7 +157,7 @@ router.route('/api/projects/:projectId')
         });
     })
 
-    .put(isLogged, bodyParser(), function(req, res){
+    .put(isLogged, bodyParser.urlencoded({extended: true}), bodyParser.json(), function(req, res){
 
         delete req.body._id;
 
@@ -251,7 +251,7 @@ router.route('/admin/')
 
 router.route('/join/')
 
-    .post(bodyParser(), function(req, res){
+    .post(bodyParser.urlencoded({extended: true}), bodyParser.json(), function(req, res){
 
         var email = req.body.email,
             password = req.body.password;

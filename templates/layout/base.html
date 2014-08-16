@@ -38,7 +38,12 @@
         {% endif %}
 
         <script type="text/javascript">
-            var app = new AppManager();
+            var Config = {
+                BASE_URL: 'http://dev.arthur.muchir.fr:8080'
+            };
+
+            var app = new App();
+            app.start();
         </script>
     </body>
 </html>

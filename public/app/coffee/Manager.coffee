@@ -9,6 +9,6 @@ class Manager
             viewClosed: new Signal()
             viewChanged: new Signal()
 
-    trigger:(url)->
-        if Utils.addSlashToEnd(History.getState().url) != url
+    trigger: (url)->
+        if History.getState().url != url
             History.pushState({_index: History.getCurrentIndex()}, null, url)
