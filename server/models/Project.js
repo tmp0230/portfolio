@@ -20,6 +20,7 @@ var mongoose = require('mongoose'),
         credits: [String],
         media: [MediaSchema],
         position: Number,
+        big: Boolean,
         publish: Boolean
     });
 

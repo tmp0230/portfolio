@@ -1,28 +1,37 @@
 <div id="projectList">
     <section>
-        <div class="cf home-bottom-margin">
-            <a href="/projects/test/">
-                <article class="grid-7 inside-border">
-                    <img src="/static/img/arthur-muchir_hermes-cover.jpg" alt="" width="540" height="540" class="gray-filter">
-                    <h1>Hermès Collection</h1>
-                    <div class="overlay">Hermès Collection</div>
-                </article>
-            </a>
-            <a href="#">
-                <article class="grid-7 push-1 inside-border">
-                    <img src="/static/img/arthur-muchir_hermes-cover.jpg" alt="" width="540" height="540" class="gray-filter">
-                    <h1>Hermès Collection</h1>
-                </article>
-            </a>
-        </div>
-        <div class="cf home-bottom-margin">
-            <a href="#">
-                <article class="grid-15 inside-border">
-                    <img src="/static/img/arthur-muchir_onemore-cover.jpg" alt="" width="1180" height="405" class="gray-filter">
-                    <h1>Hermès Collection</h1>
-                </article>
-            </a>
-        </div>
+        {% for project in projects|sort(false, false, "position") %}
+
+            {% if project.big %}
+                {% set width = 1180 %}
+                {% set height = 405 %}
+                {% set grid_size = 15 %}
+            {% else %}
+                {% set width = 540 %}
+                {% set height = 540 %}
+                {% set grid_size = 7 %}
+            {% endif %}
+
+            {% if project.big %}
+                <div class="cf home-bottom-margin">
+                    {% include "partials/project_template.html" %}
+                </div>
+
+            {% elif loop.index0 % 2 == 0 %}
+                <div class="cf home-bottom-margin">
+                    {% include "partials/project_template.html" %}
+
+                    {% if not projects[loop.index0 + 1].big %}
+
+                        {% set project = projects[loop.index0 + 1] %}
+
+                        {% include "partials/project_template.html" %}
+
+                    {% endif %}
+                </div>
+            {% endif %}            
+
+        {% endfor %}
     </section>
 
     <span class="letter grid-1 push-5">A</span>

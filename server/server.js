@@ -102,14 +102,20 @@ router.route('/')
 
     .get(function(req, res){
 
-        res.render('extends/project-list.html', {url: '/'});
+        Project.find(function(err, projects){
+
+           res.render('extends/project-list.html', {url: '/', projects: projects});
+        });
     });
 
-router.route('/projects/:project_slug/')
+router.route('/projects/:projectSlug/')
 
     .get(function(req, res){
 
-        res.render('extends/project-show.html');
+        Project.findOne({slug: req.params.projectSlug}, function(err, project){
+
+            res.render('extends/project-show.html', {project: project});
+        });
     });
 
 // API

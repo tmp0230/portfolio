@@ -126,7 +126,8 @@ gulp.task('copy', function(){
 
 gulp.task('templates', function(){
     return gulp.src(files.templates)
-        .pipe(nunjucks())
+        .pipe(nunjucks()
+            .on('error', gutil.log))
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());
 });

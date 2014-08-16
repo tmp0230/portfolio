@@ -1,20 +1,37 @@
 class ProjectController
-    projects: null
-
-    showProject: (slug)->
-
-        item = new ProjectShow()
-
-        if !@projects?
-            $.get('/api/projects', (data)->
-                projects = data
-            )
 
     listProject:->
 
         item = new ProjectList()
 
-        if !@projects?
-            $.get('/api/projects', (data)->
-                projects = data
+        data = Project.getAll()
+
+        if data.promise?
+
+            data.then((result)->
+
+                app.region.mainRegion.show(item, {projects: result})
             )
+
+        else
+
+            app.region.mainRegion.show(item, {projects: data})
+
+
+    showProject: (slug)->
+
+        item = new ProjectShow()
+
+        data = Project.getOne(slug)
+
+        if data? && data.promise?
+
+            data.then((result)->
+
+                getProject = Project.getOne(slug)
+
+                app.region.mainRegion.show(item, {project: getProject})
+            )
+
+        else
+            app.region.mainRegion.show(item, {project: data})

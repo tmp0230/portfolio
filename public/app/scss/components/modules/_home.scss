@@ -49,7 +49,7 @@
     line-height: $over + 16;
     color: $blue;
     text-transform: uppercase;
-    mix-blend-mode: multiply;
+    //mix-blend-mode: multiply;
     opacity: 0;
     transform: translateY(-50%) scale(.98);
 }
@@ -75,13 +75,13 @@ nav{
 
 .letter{
     position: absolute;
-    top: 160px;
     font-size: $letter;
     font-family: $ptSans;
     color: $blue;
     font-weight: bold;
     pointer-events: none;
-    display: none;
+    z-index: 1;
+    top: 0;
 }
 
 
