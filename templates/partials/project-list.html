@@ -1,6 +1,7 @@
 <div id="projectList">
     <section>
-        {% for project in projects|sort(false, false, "position") %}
+        {% set sortedProjects = projects|sort(false, false, "position") %}
+        {% for project in sortedProjects %}
 
             {% if project.big %}
                 {% set width = 1180 %}
@@ -17,19 +18,19 @@
                     {% include "partials/project_template.html" %}
                 </div>
 
-            {% elif loop.index0 % 2 == 0 %}
+            {% elif loop.first or sortedProjects[loop.index0 - 1].big %}
                 <div class="cf home-bottom-margin">
                     {% include "partials/project_template.html" %}
 
-                    {% if not projects[loop.index0 + 1].big %}
+                    {% if not sortedProjects[loop.index0 + 1].big %}
 
-                        {% set project = projects[loop.index0 + 1] %}
+                        {% set project = sortedProjects[loop.index0 + 1] %}
 
                         {% include "partials/project_template.html" %}
 
                     {% endif %}
                 </div>
-            {% endif %}            
+            {% endif %}
 
         {% endfor %}
     </section>

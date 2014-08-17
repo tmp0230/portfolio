@@ -126,7 +126,11 @@ gulp.task('copy', function(){
 
 gulp.task('templates', function(){
     return gulp.src(files.templates)
-        .pipe(nunjucks()
+        .pipe(nunjucks({
+            name: function(file){
+                return 'partials/'+file.relative;
+            }
+        })
             .on('error', gutil.log))
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());

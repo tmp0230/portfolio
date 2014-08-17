@@ -1,16 +1,30 @@
-<aside>
-    <p>Technical workflow :</p>
-    <ul>
-        <li>Backbone</li><li>Marionette</li><li>Truc</li><li>Machin</li>
-    </ul>
+{% if project.technical.length > 0 or project.team.length > 0 or project.credits.length > 0 %}
+    <aside>
+        {% if project.technical.length > 0 %}
+            <p>Technical workflow :</p>
+            <ul>
+                {% for tech in project.technical %}
+                    <li>{{tech}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <p>Worked with me on the project :</p>
-    <ul>
-        <li>salut</li>
-    </ul>
+        {% if project.team.length > 0 %}
+            <p>Worked with me on the project :</p>
+            <ul>
+                {% for member in project.team %}
+                    <li>{{member}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <p>Credits :</p>
-    <ul>
-        <li>salut</li>
-    </ul>
-</aside>
+        {% if project.credits.length > 0 %}
+            <p>Credits :</p>
+            <ul>
+                {% for cred in project.credits %}
+                    <li>{{cred}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </aside>
+{% endif %}
