@@ -91,8 +91,12 @@ app.use(function(req, res, next){
 
 nunjucksGlobals.env = process.env.NODE_ENV;
 
-nunjucks.configure(__dirname + '/../templates', {
+var env = nunjucks.configure(__dirname + '/../templates', {
     express: app
+});
+
+env.addFilter('date', function(str){
+    return 'ok';
 });
 
 // Router

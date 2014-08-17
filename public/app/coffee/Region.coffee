@@ -1,10 +1,17 @@
+# Need to find how to set filter
+
 class Region
     el: null
+    env: null
     currentView: null
     firstRender: true
 
     constructor: (el)->
         @el = $(el)
+        @env = new nunjucks.Environment()
+        @env.addFilter('date', (str)->
+            return 'ok'
+        )
 
     show: (view, data)->
 
@@ -12,7 +19,7 @@ class Region
             @firstRender = false
             return @noAjaxRender(view)
 
-        renderedTemplate = nunjucks.render(view.template, data)
+        renderedTemplate = @env.render(view.template, data)
 
         @el.append(renderedTemplate)
 
