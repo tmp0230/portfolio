@@ -1,9 +1,10 @@
 .about{
-    display: none;
     position: fixed;
     top: 50%;
     text-align: center;
     transform: translateY(-50%);
+    display: none;
+    z-index: 3;
     &:before{
         content: "";
         width: 100%;
@@ -12,6 +13,9 @@
         left: -2%;
         margin-top: -2%;
         background-color: $blue;
+    }
+    &.show{
+        display: block;
     }
 }
 

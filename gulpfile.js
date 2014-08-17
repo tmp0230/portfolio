@@ -130,8 +130,7 @@ gulp.task('templates', function(){
             name: function(file){
                 return 'partials/'+file.relative;
             }
-        })
-            .on('error', gutil.log))
+        }))
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());
 });

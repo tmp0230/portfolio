@@ -10,10 +10,13 @@ class App extends Manager
     start:->
         new ProjectRouter()
 
+        new About()
+
         $('body').on('click', 'a:not(.real)', (evt)=>
             evt.preventDefault()
             url = $(evt.currentTarget).attr('href')
 
-            @trigger(url)
-            @vent.viewChanged.dispatch('view:show', url)
+            if url != '#'
+                @trigger(url)
+                @vent.viewChanged.dispatch('view:show', url)
         )
