@@ -23,9 +23,11 @@
   },
   "devDependencies": {
     "browserify": "5.11.x",
+    "vinyl-source-stream": "1.0.x",
     "gulp": "3.8.x",
     "gulp-util": "3.0.x",
     "gulp-nunjucks": "1.0.x",
+    "gulp-streamify": "0.0.x",
     "gulp-coffee": "2.1.x",
     "gulp-rimraf": "0.1.x",
     "gulp-sass": "0.7.x",

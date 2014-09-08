@@ -1,11 +1,14 @@
 // TODO: When gulp 4 will be out, remove gulp.start() in clean (something will allow to do so) and check error comportments (lint)
 // TODO: Add uncss task
+// TODO: When uglify is updated, check if streamify is still needed
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     path = require('path'),
-    browserify = require('browserify')
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream'),
 
+    streamify = require('gulp-streamify'),
     coffee = require('gulp-coffee'),
     rimraf = require('gulp-rimraf'),
     nunjucks = require('gulp-nunjucks'),
@@ -77,19 +80,19 @@ gulp.task('coffee', function(){
             .on('error', gutil.log)
             .on('error', gutil.beep))
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('public/dist/js'))
-        .pipe(livereload())
-        .pipe(rename({suffix: '.min'}))
-        .pipe(uglify())
         .pipe(gulp.dest('public/dist/js'));
 });
 
-// gulp.task('browserify', function(){
-//     return browserify({
-//         entries: files.browserify
-//     })
-//     .bundle()
-// });
+gulp.task('browserify', ['coffee'], function(){
+    return browserify('./public/dist/js/app.js')
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('public/dist/js'))
+        .pipe(livereload())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(streamify(uglify()))
+        .pipe(gulp.dest('public/dist/js'));
+});
 
 gulp.task('libs', function(){
     return gulp.src(files.libs)
@@ -156,11 +159,11 @@ gulp.task('clean', function(){
 // Watch
 // =====
 
-gulp.task('watch', ['templates', 'css', 'coffee', 'libs', 'copy', 'lint'], function(){
+gulp.task('watch', ['templates', 'css', 'browserify', 'libs', 'copy', 'lint'], function(){
     gulp.watch(files.templates, ['templates']);
     gulp.watch(files.css, ['css']);
     gulp.watch(files.lint, ['lint']);
-    gulp.watch(files.coffee, ['coffee']);
+    gulp.watch(files.coffee, ['browserify']);
     gulp.watch(files.libs, ['libs']);
     gulp.watch(files.copy, ['copy']);
 });
@@ -175,6 +178,6 @@ gulp.task('build', ['clean'], function(){
     gulp.start('postbuild');
 });
 
-gulp.task('postbuild', ['templates', 'css', 'coffee', 'libs', 'copy'], function(){
+gulp.task('postbuild', ['templates', 'css', 'browserify', 'libs', 'copy'], function(){
     process.exit();
 });

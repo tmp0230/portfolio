@@ -7,7 +7,7 @@ class Region
     constructor: (el)->
         @el = $(el)
         @env = new nunjucks.Environment()
-        filters = require('../../filters/filters')
+        filters = require('../../../filters/filters')
         filters(@env)
 
     show: (view, data)->
