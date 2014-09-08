@@ -22,6 +22,7 @@
     "multer": "0.1.x"
   },
   "devDependencies": {
+    "browserify": "5.11.x",
     "gulp": "3.8.x",
     "gulp-util": "3.0.x",
     "gulp-nunjucks": "1.0.x",
