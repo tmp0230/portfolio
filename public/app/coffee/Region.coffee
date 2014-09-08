@@ -1,5 +1,3 @@
-# Need to find how to set filter
-
 class Region
     el: null
     env: null
@@ -9,9 +7,8 @@ class Region
     constructor: (el)->
         @el = $(el)
         @env = new nunjucks.Environment()
-        @env.addFilter('date', (str)->
-            return 'ok'
-        )
+        filters = require('../../filters/filters')
+        filters(@env)
 
     show: (view, data)->
 

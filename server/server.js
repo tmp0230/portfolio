@@ -17,6 +17,7 @@ var Config = require('./config'),
     app = express(),
     router = express.Router(),
     port = process.env.PORT || 8080,
+    filters = require('../filters/filters'),
     Project = require('./models/Project'),
     User = require('./models/User');
 
@@ -95,9 +96,7 @@ var env = nunjucks.configure(__dirname + '/../templates', {
     express: app
 });
 
-env.addFilter('date', function(str){
-    return 'ok';
-});
+filters(env);
 
 // Router
 // ======

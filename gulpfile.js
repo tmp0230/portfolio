@@ -4,6 +4,7 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     path = require('path'),
+    browserify = require('browserify')
 
     coffee = require('gulp-coffee'),
     rimraf = require('gulp-rimraf'),
@@ -82,6 +83,13 @@ gulp.task('coffee', function(){
         .pipe(uglify())
         .pipe(gulp.dest('public/dist/js'));
 });
+
+// gulp.task('browserify', function(){
+//     return browserify({
+//         entries: files.browserify
+//     })
+//     .bundle()
+// });
 
 gulp.task('libs', function(){
     return gulp.src(files.libs)
