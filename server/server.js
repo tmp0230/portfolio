@@ -2,6 +2,7 @@
 
 var Config = require('./config'),
     express = require('express'),
+    favicon = require('serve-favicon'),
     bodyParser = require('body-parser'), // get input data through req.body
     methodOverride = require('method-override'), // use hidden field _method to set put or delete
     cookieParser = require('cookie-parser'),
@@ -67,6 +68,7 @@ var isLogged = function(req, res, next){
 
 app
     .use('/static/', express.static(__dirname+'/../public/dist'))
+    .use(favicon(__dirname+'/../public/dist/favicon.ico'))
     .use(morgan('dev'))
     .use(methodOverride())
     .use(cookieParser())

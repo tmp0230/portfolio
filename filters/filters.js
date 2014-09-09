@@ -1,6 +1,8 @@
+var moment = require('moment');
+
 module.exports = function(env){
-    
+
     env.addFilter('date', function(str){
-        return 'ok';
+        return moment(str).format('MMMM YYYY');
     });
 };

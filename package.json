@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "4.8.x",
+    "serve-favicon": "2.1.x",
     "mongoose": "3.8.x",
     "body-parser": "1.6.x",
     "method-override": "2.1.x",
@@ -19,7 +20,8 @@
     "passport": "0.2.x",
     "passport-http": "0.2.x",
     "connect-flash": "0.1.x",
-    "multer": "0.1.x"
+    "multer": "0.1.x",
+    "moment": "2.8.x"
   },
   "devDependencies": {
     "browserify": "5.11.x",
