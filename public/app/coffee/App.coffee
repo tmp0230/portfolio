@@ -1,4 +1,4 @@
-class App extends Manager
+class window.App extends Manager
 
     constructor:->
         super

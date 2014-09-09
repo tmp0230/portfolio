@@ -84,7 +84,9 @@ gulp.task('coffee', function(){
 });
 
 gulp.task('browserify', ['coffee'], function(){
-    return browserify('./public/dist/js/app.js')
+    return browserify({
+            entries: ['./public/dist/js/app.js']
+        })
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('public/dist/js'))
