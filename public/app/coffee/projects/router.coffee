@@ -18,6 +18,8 @@ class ProjectRouter extends Router
                     console.log 'projects'
                     @controller.listProject()
 
+                    app.menu.switchMenu(true)
+
                 else
                     reg = new RegExp('^\/projects\/([A-Z0-9-]*)\/$', 'i')
                     match = reg.exec(urlSimplified)
@@ -25,3 +27,5 @@ class ProjectRouter extends Router
                     if match != null
                         console.log match[1]
                         @controller.showProject(match[1])
+
+                        app.menu.switchMenu(false)

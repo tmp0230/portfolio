@@ -22,8 +22,6 @@ class ProjectController
 
         item = new ProjectShow()
 
-        #item.addOne
-
         data = Project.getOne(slug)
 
         if data? && data.promise?
@@ -36,4 +34,5 @@ class ProjectController
             )
 
         else
+
             app.region.mainRegion.show(item, {project: data})

@@ -1,13 +1,4 @@
 class Menu
-    vent: null
-
-    constructor:->
-        Signal = signals.Signal
-
-        @vent =
-            menuChanged: new Signal()
-
-        @vent.menuChanged.add(@switchMenu)
 
     switchMenu: (isTwoState)->
         if isTwoState
