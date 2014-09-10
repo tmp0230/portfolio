@@ -65,7 +65,7 @@ nav{
             position: relative;
             transition: transform 400ms;
             &:after{
-                content: attr(title);
+                content: attr(data-title);
                 width: 100%;
                 display: block;
                 position: absolute;
