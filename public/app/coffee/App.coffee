@@ -1,15 +1,16 @@
 class window.App extends Manager
+    menu: null
 
     constructor:->
         super
 
         @region =
             mainRegion: new Region('#mainRegion')
-            asideRegion: new Region('#asideRegion')
 
     start:->
         new ProjectRouter()
 
+        @menu = new Menu()
         new About()
 
         $('body').on('click', 'a:not(.real)', (evt)=>

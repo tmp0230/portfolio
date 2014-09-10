@@ -35,3 +35,5 @@ class ProjectController
 
         else
             app.region.mainRegion.show(item, {project: data})
+
+        app.menu.vent.dispatch(true)
