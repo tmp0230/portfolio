@@ -1,9 +1,10 @@
-*, input[type="search"]{
+html {
     box-sizing: border-box;
+    background-color: $grey;
 }
 
-html{
-    background-color: $grey;
+*, *:before, *:after, input[type="search"]{
+    box-sizing: inherit;
 }
 
 body{
