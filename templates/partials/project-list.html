@@ -3,6 +3,8 @@
         {% set sortedProjects = projects|sort(false, false, "position") %}
         {% for project in sortedProjects %}
 
+            {% set pushed = "" %}
+
             {% if project.big %}
                 {% set width = 1180 %}
                 {% set height = 405 %}
@@ -22,9 +24,10 @@
                 <div class="cf home-bottom-margin">
                     {% include "partials/project_template.html" %}
 
-                    {% if not sortedProjects[loop.index0 + 1].big %}
+                    {% if sortedProjects[loop.index0 + 1] and not sortedProjects[loop.index0 + 1].big %}
 
                         {% set project = sortedProjects[loop.index0 + 1] %}
+                        {% set pushed = "push-1" %}
 
                         {% include "partials/project_template.html" %}
 

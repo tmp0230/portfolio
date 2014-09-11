@@ -60,7 +60,7 @@ var isLogged = function(req, res, next){
         return next();
     }
 
-    res.send(401);
+    res.status(401).end();
 };
 
 // App
@@ -68,6 +68,7 @@ var isLogged = function(req, res, next){
 
 app
     .use('/static/', express.static(__dirname+'/../public/dist'))
+    .use('/upload/', express.static(__dirname+'/../uploads'))
     .use(favicon(__dirname+'/../public/dist/favicon.ico'))
     .use(morgan('dev'))
     .use(methodOverride())
@@ -133,7 +134,7 @@ router.route('/api/projects')
         Project.find(function(err, projects){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(projects);
@@ -147,7 +148,7 @@ router.route('/api/projects')
         project.save(function(err){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(project);
@@ -161,7 +162,7 @@ router.route('/api/projects/:projectId')
         Project.findById(req.params.projectId, function(err, project){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(project);
@@ -175,7 +176,7 @@ router.route('/api/projects/:projectId')
         Project.findByIdAndUpdate(req.params.projectId, req.body, function(err, project){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(project);
@@ -187,10 +188,10 @@ router.route('/api/projects/:projectId')
         Project.findByIdAndRemove(req.params.projectId, function(err){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
-            res.send(200);
+            res.status(200).end();
         });
     });
 
@@ -201,7 +202,7 @@ router.route('/api/teams')
         Project.find().distinct('team', function(err, teams){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(teams);
@@ -215,7 +216,7 @@ router.route('/api/credits')
         Project.find().distinct('credits', function(err, credits){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(credits);
@@ -229,7 +230,7 @@ router.route('/api/technicals')
         Project.find().distinct('technical', function(err, technical){
 
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
 
             res.json(technical);
@@ -269,10 +270,10 @@ router.route('/join/')
 
         User.findOne({email: email}, function(err, user){
             if(err){
-                return res.send(err.code, err.message);
+                return res.status(err.code, err.message).end();
             }
             if(user){
-                return res.send(432, 'This email already exists'); // Mail already exists in DB
+                return res.status(432, 'This email already exists').end(); // Mail already exists in DB
             }
 
             var user = new User({email: email, password: password});
@@ -280,16 +281,16 @@ router.route('/join/')
             user.save(function(err){
 
                 if(err){
-                    return res.send(err.code, err.message);
+                    return res.status(err.code, err.message).end();
                 }
 
                 req.login(user, function(err){
 
                     if(err){
-                        return res.send(err.code);
+                        return res.status(err.code).end();
                     }
 
-                    res.send(200);
+                    res.status(200).end();
                 });
             });
         });
@@ -302,22 +303,22 @@ router.route('/login/')
         passport.authenticate('digest', function(err, user, info){
 
             if(err){
-                return res.send(err.code);
+                return res.status(err.code).end();
             }
 
             if(!user){
                 res.set('WWW-Authenticate', 'x'+info);
 
-                return res.send(401);
+                return res.status(401).end();
             }
 
             req.login(user, function(err){
 
                 if(err){
-                    return res.send(err.code);
+                    return res.status(err.code).end();
                 }
 
-                res.send(200);
+                res.status(200).end();
             });
 
         })(req, res, next);
@@ -327,10 +328,10 @@ router.route('/loggedin/')
 
     .get(function(req, res){
         if(req.isAuthenticated()){
-            return res.send(200);
+            return res.status(200).end();
         }
 
-        return res.send(401);
+        return res.status(401).end();
     });
 
 router.route('/logout/')

@@ -2,7 +2,7 @@
     <div class="grid-3 push-1 no-margin-left no-margin-right top-fixed">
         <h1>{{project.title}}</h1>
         <p>{{project.description}}<br><br>
-            {{project.date|date}}<br><br><br>
+            {% if project.date %}{{project.date|date}}<br><br><br>{% endif %}
             <a href="{{project.link}}" target="blank" class="real">{{project.link}}</a></p>
 
     </div>

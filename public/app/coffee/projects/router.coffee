@@ -18,7 +18,7 @@ class ProjectRouter extends Router
                     console.log 'projects'
                     @controller.listProject()
 
-                    app.menu.switchMenu(true)
+                    app.menu.goSingle(true)
 
                 else
                     reg = new RegExp('^\/projects\/([A-Z0-9-]*)\/$', 'i')
@@ -28,4 +28,4 @@ class ProjectRouter extends Router
                         console.log match[1]
                         @controller.showProject(match[1])
 
-                        app.menu.switchMenu(false)
+                        app.menu.goSingle(false)

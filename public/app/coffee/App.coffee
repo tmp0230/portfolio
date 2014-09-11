@@ -8,9 +8,9 @@ class window.App extends Manager
             mainRegion: new Region('#mainRegion')
 
     start:->
+        @menu = new Menu()
         new ProjectRouter()
 
-        @menu = new Menu()
         new About()
 
         $('body').on('click', 'a:not(.real)', (evt)=>
