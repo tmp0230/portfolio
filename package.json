@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "browserify": "5.11.x",
+    "watchify": "1.0.x",
     "vinyl-source-stream": "1.0.x",
     "gulp": "3.8.x",
     "gulp-util": "3.0.x",
@@ -41,6 +42,8 @@
     "gulp-concat": "2.3.x",
     "gulp-uglify": "0.3.x",
     "gulp-rename": "1.2.x",
-    "gulp-livereload": "2.1.x"
+    "gulp-livereload": "2.1.x",
+    "gulp-notify": "1.6.x",
+    "gulp-plumber": "0.6.x"
   }
 }

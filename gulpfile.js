@@ -1,12 +1,14 @@
 // TODO: When gulp 4 will be out, remove gulp.start() in clean (something will allow to do so) and check error comportments (lint)
 // TODO: Add uncss task
 // TODO: When uglify is updated, check if streamify is still needed
+// TODO: Remove plumber when no more needed
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     path = require('path'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
+    watchify = require('watchify'),
 
     streamify = require('gulp-streamify'),
     coffee = require('gulp-coffee'),
@@ -21,6 +23,8 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     sass = require('gulp-sass'),
     prefix = require('gulp-autoprefixer'),
+    notify = require('gulp-notify'),
+    plumber = require('gulp-plumber'),
 
 
 // Variables
@@ -57,6 +61,9 @@ var gulp = require('gulp'),
             'public/app/templates/admin/**/*.html',
             '!public/app/coffee{,/**}',
             '!public/app/scss{,/**}'
+        ],
+        browserify: [
+            'filters/*.js'
         ]
     };
 
@@ -76,24 +83,37 @@ gulp.task('lint', function(){
 
 gulp.task('coffee', function(){
     return gulp.src(files.coffee)
+        .pipe(plumber())
         .pipe(coffee({bare: true})
             .on('error', gutil.log)
-            .on('error', gutil.beep))
+            .on('error', gutil.beep)
+            .on('error', notify.onError('coffee: <%= error.message %>')))
         .pipe(concat('app.js'))
         .pipe(gulp.dest('public/dist/js'));
 });
 
 gulp.task('browserify', ['coffee'], function(){
-    return browserify({
-            entries: ['./public/dist/js/app.js']
-        })
-        .bundle()
-        .pipe(source('app.js'))
-        .pipe(gulp.dest('public/dist/js'))
-        .pipe(livereload())
-        .pipe(rename({suffix: '.min'}))
-        .pipe(streamify(uglify()))
-        .pipe(gulp.dest('public/dist/js'));
+    var bundler = watchify(browserify('./public/dist/js/app.js', {
+            cache: {},
+            packageCache: {},
+            fullPaths: true
+        }));
+
+    bundler.on('update', rebundle);
+
+    function rebundle(){
+        return bundler
+            .bundle()
+                .on('error', notify.onError('bundle: <%= error.message %>'))
+            .pipe(source('bundle.js'))
+            .pipe(gulp.dest('public/dist/js'))
+            .pipe(livereload())
+            .pipe(rename({suffix: '.min'}))
+            .pipe(streamify(uglify()))
+            .pipe(gulp.dest('public/dist/js'));
+    }
+
+    return rebundle();
 });
 
 gulp.task('libs', function(){
@@ -113,7 +133,10 @@ gulp.task('libs', function(){
 gulp.task('css', function(){
     return gulp.src(files.css)
         .pipe(sass({
-            errLogToConsole: true
+            errLogToConsole: false,
+            onError: function(err){
+                notify().write('sass: '+err);
+            }
         }))
         .pipe(prefix())
         .pipe(gulp.dest('public/dist/css'))
@@ -139,11 +162,13 @@ gulp.task('copy', function(){
 
 gulp.task('templates', function(){
     return gulp.src(files.templates)
+        .pipe(plumber())
         .pipe(nunjucks({
             name: function(file){
                 return 'partials/'+file.relative;
             }
-        }))
+        })
+            .on('error', notify.onError('nunjucks: <%= error.message %>')))
         .pipe(gulp.dest('public/dist/jst'))
         .pipe(livereload());
 });
@@ -165,7 +190,8 @@ gulp.task('watch', ['templates', 'css', 'browserify', 'libs', 'copy', 'lint'], f
     gulp.watch(files.templates, ['templates']);
     gulp.watch(files.css, ['css']);
     gulp.watch(files.lint, ['lint']);
-    gulp.watch(files.coffee, ['browserify']);
+    gulp.watch(files.coffee, ['coffee']);
+    gulp.watch(files.browserify, ['coffee']);
     gulp.watch(files.libs, ['libs']);
     gulp.watch(files.copy, ['copy']);
 });
